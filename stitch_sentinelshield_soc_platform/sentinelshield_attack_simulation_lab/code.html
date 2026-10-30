@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"inverse-on-surface":"#2c303b","primary-fixed-dim":"#adc6ff","surface-container-lowest":"#0a0e18","on-tertiary-container":"#340080","on-surface":"#dfe2f1","surface-container-low":"#171b26","inverse-surface":"#dfe2f1","on-error-container":"#ffdad6","tertiary-container":"#a078ff","on-surface-variant":"#c2c6d6","tertiary":"#d0bcff","on-tertiary":"#3c0091","secondary-fixed-dim":"#4edea3","on-primary-fixed-variant":"#004395","on-primary-container":"#00285d","surface-container-highest":"#313540","primary":"#adc6ff","tertiary-fixed-dim":"#d0bcff","on-tertiary-fixed-variant":"#5516be","outline-variant":"#424754","on-primary-fixed":"#001a42","surface-container":"#1c1f2a","tertiary-fixed":"#e9ddff","on-background":"#dfe2f1","primary-fixed":"#d8e2ff","on-tertiary-fixed":"#23005c","error-container":"#93000a","on-secondary":"#003824","outline":"#8c909f","inverse-primary":"#005ac2","surface-bright":"#353944","surface-container-high":"#262a35","secondary":"#4edea3","surface-dim":"#0f131d","surface":"#0f131d","on-secondary-fixed-variant":"#005236","background":"#0f131d","secondary-fixed":"#6ffbbe","on-secondary-container":"#00311f","surface-variant":"#313540","primary-container":"#4d8eff","surface-tint":"#adc6ff","error":"#ffb4ab","on-error":"#690005","on-primary":"#002e6a","on-secondary-fixed":"#002113","secondary-container":"#00a572"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-2xl":"2rem","gutter":"1rem","margin-mobile":"0.75rem","space-md":"0.75rem","space-lg":"1rem","space-xs":"0.25rem","space-sm":"0.5rem","gutter-compact":"0.5rem","margin":"1.5rem","space-xl":"1.5rem"},fontFamily:{"display-xl-mobile":["Inter"],"headline-lg":["Inter"],"mono-metric":["JetBrains Mono"],"display-xl":["Inter"],"body-md":["Inter"],"label-md":["JetBrains Mono"],"label-sm":["JetBrains Mono"],"headline-md":["Inter"],"mono-code":["JetBrains Mono"],"body-lg":["Inter"],"body-sm":["Inter"],"mono-data":["JetBrains Mono"],"headline-sm":["Inter"]},fontSize:{"display-xl-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"700"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"mono-metric":["28px",{"lineHeight":"32px","letterSpacing":"-0.03em","fontWeight":"600"}],"display-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"500"}],"label-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.06em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"mono-code":["11px",{"lineHeight":"16px","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"mono-data":["13px",{"lineHeight":"20px","fontWeight":"400"}],"headline-sm":["16px",{"lineHeight":"24px","fontWeight":"600"}]}}}};</script></head><body class="bg-surface text-on-surface font-body-md text-body-md antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center justify-between border-b border-outline-variant bg-surface-container-low"><div class="flex items-center gap-space-sm"><img alt="SentinelShield Cybersecurity Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1V8-TsXc-tOR2wJf29v-nicrxNeA_VTQaGfxKjQPKe0YrPGYygD3wImhGk64ho6BQX_gXEGYGals12KUF9mRpBfOCIlVcOfPpAfIx3sBGKLWrGeqz06aQQwqDMI4lVJ00x9cHgcUzlk199-Hj472JIJ0phzOiXnaQ5G3SftrUoOYxWc7yPnp-uh4-MdWy3Ns4JD4mvyRyo3a3M3nMBQArHWFwhmu2xQWUXu6irnz1oQTQ"/><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface">SentinelShield</span></div><span class="font-label-sm text-label-sm uppercase px-space-xs py-0.5 rounded bg-surface-container-highest text-primary border border-outline-variant">v2.4</span></div><div class="px-space-md py-space-sm"><div class="px-space-sm py-space-xs font-label-sm text-label-sm uppercase tracking-wider text-outline">Operations &amp; Threat Telemetry</div></div><nav class="flex flex-col px-space-sm gap-0.5" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center gap-space-md px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="soc-dashboard" href="#"><span class="material-symbols-outlined text-lg leading-none">dashboard</span><span>SOC Dashboard</span></a><a class="flex items-center gap-space-md px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="live-request-inspector" href="#"><span class="material-symbols-outlined text-lg leading-none">terminal</span><span>Live Request Inspector</span></a><a aria-current="page" class="flex items-center gap-space-md px-space-md py-2 rounded transition-colors bg-primary-container text-on-primary-container font-semibold" data-path="attack-simulation-lab" href="#"><span class="material-symbols-outlined text-lg leading-none">science</span><span>Attack Simulation Lab</span></a><a class="flex items-center gap-space-md px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="security-event-logs" href="#"><span class="material-symbols-outlined text-lg leading-none">flip_camera_ios</span><span>Security Event Logs</span></a><a class="flex items-center gap-space-md px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="alert-management" href="#"><span class="material-symbols-outlined text-lg leading-none">notifications_active</span><span>Alert Management</span></a><a class="flex items-center gap-space-md px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="rate-limiting-ip-activity" href="#"><span class="material-symbols-outlined text-lg leading-none">speed</span><span>Rate Limiting &amp; IP Activity</span></a><a class="flex items-center gap-space-md px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="detection-rules" href="#"><span class="material-symbols-outlined text-lg leading-none">verified_user</span><span>Detection Rules</span></a><a class="flex items-center gap-space-md px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="analytics-reports" href="#"><span class="material-symbols-outlined text-lg leading-none">bar_chart</span><span>Analytics &amp; Reports</span></a><a class="flex items-center gap-space-md px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="practical-journal" href="#"><span class="material-symbols-outlined text-lg leading-none">menu_book</span><span>Practical Journal</span></a><div class="my-space-xs border-t border-outline-variant/60"></div><div class="px-space-sm py-space-xs font-label-sm text-label-sm uppercase tracking-wider text-outline">System &amp; Administration</div><a class="flex items-center gap-space-md px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="system-settings" href="#"><span class="material-symbols-outlined text-lg leading-none">settings</span><span>System Settings</span></a><a class="flex items-center gap-space-md px-space-md py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-body-sm text-body-sm" data-path="notifications-help" href="#"><span class="material-symbols-outlined text-lg leading-none">help</span><span>Notifications &amp; Help</span></a></nav></div><div class="p-space-md border-t border-outline-variant bg-surface-container-low"><div class="p-space-sm rounded bg-surface-container-lowest border border-outline-variant mb-space-sm"><div class="flex items-center justify-between mb-1"><div class="flex items-center gap-2"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span></span><span class="font-label-sm text-label-sm uppercase text-secondary font-semibold">ENGINE ACTIVE</span></div><span class="font-label-sm text-label-sm text-outline">IDS v2.4</span></div><div class="font-mono-code text-mono-code text-on-surface-variant flex items-center justify-between"><span>RAM: 412 MB</span><span>LAT: 1.8ms</span></div></div><a class="flex items-center justify-between px-space-sm py-space-xs rounded text-outline hover:text-error hover:bg-error-container/30 transition-colors font-body-sm text-body-sm" data-path="auth-login" href="#"><span>Sign Out</span><span class="material-symbols-outlined text-base">logout</span></a></div></aside><div class="pl-72 flex flex-col min-h-screen"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-low/95 backdrop-blur-md border-b border-outline-variant z-40 px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-md"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-xl">security</span><span class="font-headline-sm text-headline-sm text-on-surface font-semibold">SOC Defense Console</span></div><div class="hidden md:flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-surface-container-high border border-outline-variant"><span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span><span class="font-label-sm text-label-sm uppercase text-tertiary font-medium">DEMO / TRAINING MODE (Localhost Enforced)</span></div></div><div class="flex items-center gap-space-lg"><div class="hidden xl:flex items-center gap-2 px-space-sm py-1 rounded bg-secondary-container/20 border border-secondary/40"><span class="material-symbols-outlined text-secondary text-base leading-none">verified_user</span><span class="font-label-sm text-label-sm text-secondary font-semibold uppercase tracking-wider">ACTIVE FILTERING</span></div><div class="relative hidden sm:flex items-center"><div class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant px-space-md py-1.5 rounded text-on-surface-variant"><span class="material-symbols-outlined text-base text-outline">search</span><span class="font-mono-code text-mono-code text-outline">Filter telemetry, IPs, events...</span><kbd class="ml-2 font-mono-code text-mono-code bg-surface-container-high text-on-surface-variant px-1 rounded border border-outline-variant">Ctrl+K</kbd></div></div><div class="flex items-center gap-space-sm border-l border-outline-variant pl-space-md"><button class="relative p-1.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-low"></span></button><div class="flex items-center gap-1 px-2 py-1 rounded bg-surface-container text-secondary font-mono-code text-mono-code"><span class="material-symbols-outlined text-sm leading-none">network_check</span><span>99.98%</span></div></div><div class="flex items-center gap-space-sm border-l border-outline-variant pl-space-md"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClZTz5niyEf4IzAyzBm-EFXM7ybpg3rxLA6ZVfael-QLGSSFOsFl35huQt2TKH6Na5vLcl1ytukuQC0cewUk8uatb6s9_aD1Qno87MWQ9OB5elAh_2RhmssR0dhAE20WQ2Sj6C2r59GKHnLoA8GF_4UJX5AYdKmUDVVFZJ9Ka5OFpKOI3efEFyhxxnvqQil4bssdbKCR5bxvq7z3k5i9CW4h49FmHzW0IcDGc0qwh-"/><div class="hidden lg:flex flex-col text-left"><span class="font-body-sm text-body-sm font-semibold text-on-surface leading-tight">Dr. Elena Rostova</span><span class="font-label-sm text-label-sm text-outline leading-tight">Lead SOC Analyst</span></div></div></div></header><main class="w-full pt-16 bg-surface flex-1 px-space-lg py-space-lg"><div class="flex flex-col w-full gap-space-lg">
+<!-- Local Sandboxing Operational Disclaimer Banner -->
+<div class="relative overflow-hidden rounded bg-surface-container-low p-space-md shadow-sm">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md pl-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="p-2 rounded bg-surface-container-highest text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">science</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-tertiary font-semibold">Local Sandboxing Notice</span>
+<span class="inline-flex items-center px-1.5 py-0.2 rounded bg-surface-container-highest text-on-surface-variant font-mono-code text-mono-code">ENV: ISOLATED_CONTAINER_DOCKER_VETH0</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+            Training Simulation Disclaimer: Attacks run exclusively against synthetic local container endpoints. Never targets external production assets.
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm self-end md:self-center shrink-0">
+<span class="font-mono-code text-mono-code text-secondary flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-secondary"></span>
+          EGRESS QUARANTINE: LOCKED
+        </span>
+</div>
+</div>
+</div>
+<!-- Header & Description -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-2 text-primary font-label-sm text-label-sm uppercase tracking-widest mb-1">
+<span>Validation Framework</span>
+<span>/</span>
+<span>Heuristic Accuracy Suite</span>
+</div>
+<h1 class="font-display-xl text-display-xl text-on-surface font-bold tracking-tight">Attack Simulation Lab</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl mt-1">
+        Controlled local test scenarios for web security training and heuristic validation
+      </p>
+</div>
+<!-- Quick Bench Status Badge -->
+<div class="flex items-center gap-3">
+<div class="bg-surface-container-low px-space-md py-2 rounded shadow-sm flex items-center gap-3">
+<div class="text-right">
+<span class="block font-label-sm text-label-sm text-outline uppercase">Active Pipeline</span>
+<span class="font-mono-data text-mono-data text-on-surface font-semibold">WAF-DECODER-REV4</span>
+</div>
+<div class="h-7 w-px bg-surface-container-highest"></div>
+<div class="text-right">
+<span class="block font-label-sm text-label-sm text-outline uppercase">Pass Mark</span>
+<span class="font-mono-data text-mono-data text-secondary font-semibold">99.2% REQ</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Lab Control Bar -->
+<div class="rounded bg-surface-container-low p-space-md shadow-md flex flex-col xl:flex-row xl:items-center justify-between gap-space-md">
+<div class="flex flex-wrap items-center gap-space-md">
+<!-- Scenario Suite Selector -->
+<div class="flex flex-col gap-1 min-w-[280px]">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">tune</span>
+          Scenario Vector Suite
+        </label>
+<div class="relative">
+<select class="w-full bg-surface-container-lowest text-on-surface font-body-sm text-body-sm px-3 py-2 rounded appearance-none cursor-pointer focus:outline-none focus:bg-surface-container-high transition-colors">
+<option selected="">Scenario Suite: OWASP Top 10 Common Web Signatures (v2.4)</option>
+<option>API Gateway Fuzzing &amp; Malformed JSON Specs</option>
+<option>Advanced Unicode &amp; Polyglot Null-Byte Evasions</option>
+<option>Automated Credential Spraying Patterns (High Vol)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 text-on-surface-variant pointer-events-none text-base">expand_more</span>
+</div>
+</div>
+<!-- Execution Parameters -->
+<div class="flex items-center gap-space-sm pt-4">
+<div class="bg-surface-container-lowest px-3 py-2 rounded flex items-center gap-2">
+<span class="material-symbols-outlined text-base text-primary">speed</span>
+<div>
+<span class="block font-label-sm text-label-sm text-outline uppercase">Throttling</span>
+<span class="font-mono-data text-mono-data text-on-surface font-medium">Rate: 20 req/sec</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest px-3 py-2 rounded flex items-center gap-2">
+<span class="material-symbols-outlined text-base text-tertiary">inventory_2</span>
+<div>
+<span class="block font-label-sm text-label-sm text-outline uppercase">Payload Batch</span>
+<span class="font-mono-data text-mono-data text-on-surface font-medium">250 Test Vectors</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Actions Control Group -->
+<div class="flex flex-wrap items-center gap-2 pt-2 xl:pt-0">
+<button class="flex items-center gap-2 px-space-md py-2 rounded bg-secondary-container hover:bg-secondary text-on-secondary font-headline-sm text-headline-sm transition-all shadow-sm" id="btn-start-suite">
+<span class="material-symbols-outlined text-lg leading-none" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+<span>Start Automated Test Suite</span>
+</button>
+<button class="flex items-center gap-2 px-space-md py-2 rounded bg-surface-container hover:bg-surface-container-highest text-on-surface font-body-sm text-body-sm transition-colors" id="btn-stop-suite">
+<span class="material-symbols-outlined text-base text-error">stop_circle</span>
+<span>Stop Test</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-2 rounded bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-body-sm text-body-sm transition-colors" id="btn-reset-suite">
+<span class="material-symbols-outlined text-base">restart_alt</span>
+<span>Reset Scenario State</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-2 rounded bg-surface-container-low hover:bg-surface-container text-primary font-body-sm text-body-sm transition-colors ml-auto xl:ml-0">
+<span class="material-symbols-outlined text-base">file_download</span>
+<span>Export Simulation Report (PDF/JSON)</span>
+</button>
+</div>
+</div>
+<!-- KPI & Benchmark Overview Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-md">
+<!-- Total Vectors -->
+<div class="p-space-md rounded bg-surface-container-low flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Total Vectors Submitted</span>
+<span class="material-symbols-outlined text-lg text-primary">data_array</span>
+</div>
+<div class="font-mono-metric text-mono-metric text-on-surface font-bold">250</div>
+<div class="mt-2 flex items-center justify-between font-mono-code text-mono-code text-outline">
+<span>Complete Suite</span>
+<span class="text-secondary font-medium">100% Executed</span>
+</div>
+</div>
+<!-- True Positives -->
+<div class="p-space-md rounded bg-surface-container-low flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">True Positives (Attacks Blocked)</span>
+<span class="material-symbols-outlined text-lg text-secondary">security</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-mono-metric text-mono-metric text-secondary font-bold">184 / 185</span>
+</div>
+<div class="mt-2 flex items-center justify-between font-mono-code text-mono-code">
+<span class="text-on-surface-variant">Signature Capture</span>
+<span class="text-secondary font-semibold">99.5% accuracy</span>
+</div>
+</div>
+<!-- Benign Traffic -->
+<div class="p-space-md rounded bg-surface-container-low flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Benign Traffic Passed</span>
+<span class="material-symbols-outlined text-lg text-primary">verified</span>
+</div>
+<div class="font-mono-metric text-mono-metric text-on-surface font-bold">65 / 65</div>
+<div class="mt-2 flex items-center justify-between font-mono-code text-mono-code">
+<span class="text-on-surface-variant">Clean Traffic Allowed</span>
+<span class="text-secondary font-semibold">100% normal allowed</span>
+</div>
+</div>
+<!-- False Positives -->
+<div class="p-space-md rounded bg-surface-container-low flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">False Positives</span>
+<span class="material-symbols-outlined text-lg text-outline">check_circle</span>
+</div>
+<div class="font-mono-metric text-mono-metric text-on-surface font-bold">0</div>
+<div class="mt-2 flex items-center justify-between font-mono-code text-mono-code">
+<span class="text-on-surface-variant">User Friction</span>
+<span class="text-secondary font-semibold">0.0% false trigger</span>
+</div>
+</div>
+<!-- False Negatives -->
+<div class="p-space-md rounded bg-surface-container-low flex flex-col justify-between shadow-sm relative overflow-hidden">
+<div class="absolute right-0 top-0 bottom-0 w-1 bg-error"></div>
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-error uppercase font-medium">False Negatives</span>
+<span class="material-symbols-outlined text-lg text-error">warning</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-mono-metric text-mono-metric text-error font-bold">1</span>
+<span class="font-mono-code text-mono-code text-error">(0.5% evasion)</span>
+</div>
+<div class="mt-2 font-mono-code text-mono-code text-on-surface-variant truncate" title="Obfuscated UTF-8 SQLi">
+<span class="text-error font-medium">TC-06:</span> Obfuscated UTF-8 SQLi
+      </div>
+</div>
+</div>
+<!-- Scenario Visual Diagnostic Ribbon & Synthetic Telemetry Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-4 gap-space-md">
+<!-- Visual Spectrum Micro-Visualization Chart -->
+<div class="p-space-md rounded bg-surface-container-low shadow-sm flex flex-col justify-between xl:col-span-1">
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-md text-label-md text-on-surface font-semibold uppercase">Inspection Heuristic Ratio</span>
+<span class="font-mono-code text-mono-code text-secondary">ACTIVE</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Payload evaluation distribution across 6 test modules</p>
+</div>
+<!-- Inline SVG Donut Breakdown Chart (under 2KB) -->
+<div class="my-4 flex items-center justify-center relative">
+<svg class="w-36 h-36 transform -rotate-90" viewbox="0 0 100 100">
+<!-- Background Track -->
+<circle class="text-surface-container-highest" cx="50" cy="50" fill="transparent" r="38" stroke="currentColor" stroke-width="12"></circle>
+<!-- True Positives: 184/250 = 73.6% -> circumference ~238.76 -> stroke-dasharray: 175.7 238.76 -->
+<circle class="text-secondary" cx="50" cy="50" fill="transparent" r="38" stroke="currentColor" stroke-dasharray="175.7 238.76" stroke-dashoffset="0" stroke-width="12"></circle>
+<!-- Normal Traffic: 65/250 = 26% -> 62.08 dash -->
+<circle class="text-primary-container" cx="50" cy="50" fill="transparent" r="38" stroke="currentColor" stroke-dasharray="62.1 238.76" stroke-dashoffset="-175.7" stroke-width="12"></circle>
+<!-- False Negatives: 1/250 = 0.4% -> ~1.0 dash -->
+<circle class="text-error" cx="50" cy="50" fill="transparent" r="38" stroke="currentColor" stroke-dasharray="2 238.76" stroke-dashoffset="-237.8" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<span class="font-mono-metric text-headline-lg font-bold text-on-surface">99.6%</span>
+<span class="font-label-sm text-label-sm text-outline uppercase">F1-Score</span>
+</div>
+</div>
+<div class="space-y-1.5 font-mono-code text-mono-code">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary"></span>Attacks Blocked</span>
+<span class="text-on-surface font-medium">73.6%</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-primary-container"></span>Benign Permitted</span>
+<span class="text-on-surface font-medium">26.0%</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-error"></span>Heuristic Evasions</span>
+<span class="text-error font-medium">0.4%</span>
+</div>
+</div>
+</div>
+<!-- Active Target Container Sandbox Telemetry -->
+<div class="p-space-md rounded bg-surface-container-low shadow-sm flex flex-col justify-between xl:col-span-3">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2">
+<div class="flex items-center gap-2">
+<span class="p-1 rounded bg-secondary/10 text-secondary">
+<span class="material-symbols-outlined text-base">dns</span>
+</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Synthetic Target Environment: Node-App-Echo-Worker</span>
+</div>
+<div class="flex items-center gap-2 font-mono-code text-mono-code">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant">CPU: 4.2%</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant">MEM: 86MB</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-secondary font-medium">CONTAINER: UP (03h:12m)</span>
+</div>
+</div>
+<!-- Execution Trace Sparkline Simulation -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm my-3">
+<div class="p-space-sm rounded bg-surface-container-lowest">
+<span class="font-label-sm text-label-sm text-outline uppercase block">Mean Latency</span>
+<span class="font-mono-data text-mono-data text-on-surface font-semibold">1.15 ms</span>
+<span class="text-secondary font-mono-code text-mono-code block mt-0.5">-0.18ms vs baseline</span>
+</div>
+<div class="p-space-sm rounded bg-surface-container-lowest">
+<span class="font-label-sm text-label-sm text-outline uppercase block">Max Processing Jitter</span>
+<span class="font-mono-data text-mono-data text-on-surface font-semibold">1.82 ms</span>
+<span class="text-on-surface-variant font-mono-code text-mono-code block mt-0.5">Vector TC-05</span>
+</div>
+<div class="p-space-sm rounded bg-surface-container-lowest">
+<span class="font-label-sm text-label-sm text-outline uppercase block">WAF Inspection Memory</span>
+<span class="font-mono-data text-mono-data text-on-surface font-semibold">12.4 MB</span>
+<span class="text-secondary font-mono-code text-mono-code block mt-0.5">Peak footprint</span>
+</div>
+<div class="p-space-sm rounded bg-surface-container-lowest">
+<span class="font-label-sm text-label-sm text-outline uppercase block">Rule Engine Version</span>
+<span class="font-mono-data text-mono-data text-primary font-semibold">SS-SIG-CORE-v2.4</span>
+<span class="text-on-surface-variant font-mono-code text-mono-code block mt-0.5">Hash: #9ef301a</span>
+</div>
+</div>
+<!-- Vector Engine Activity Feed Micro-Log -->
+<div class="p-2.5 rounded bg-surface-container-lowest font-mono-code text-mono-code text-on-surface-variant flex items-center justify-between">
+<div class="flex items-center gap-2 truncate">
+<span class="material-symbols-outlined text-xs text-secondary animate-pulse">radio_button_checked</span>
+<span class="text-outline">[14:02:18.991]</span>
+<span class="truncate">POST /diagnostics dispatched via local loopback 127.0.0.1:8080 → Ingress Filter rule MATCHED [SS-CMDI-001]</span>
+</div>
+<span class="text-secondary shrink-0 font-medium ml-2">BLOCK APPLIED (1.8ms)</span>
+</div>
+</div>
+</div>
+<!-- Scenario Matrix Selection Tabs -->
+<div class="flex items-center gap-1 overflow-x-auto pb-1 border-b border-surface-container-high">
+<button class="px-space-md py-2 rounded-t font-label-md text-label-md bg-surface-container text-primary font-semibold shrink-0 transition-colors">
+      All Scenarios (6)
+    </button>
+<button class="px-space-md py-2 rounded-t font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container/60 shrink-0 transition-colors">
+      SQL Injection (50 vectors)
+    </button>
+<button class="px-space-md py-2 rounded-t font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container/60 shrink-0 transition-colors">
+      Cross-Site Scripting (45 vectors)
+    </button>
+<button class="px-space-md py-2 rounded-t font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container/60 shrink-0 transition-colors">
+      Path Traversal / LFI (40 vectors)
+    </button>
+<button class="px-space-md py-2 rounded-t font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container/60 shrink-0 transition-colors">
+      Command Injection (35 vectors)
+    </button>
+<button class="px-space-md py-2 rounded-t font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container/60 shrink-0 transition-colors">
+      Credential Stuffing (80 vectors)
+    </button>
+</div>
+<!-- Test Execution Results Main Section + Evasion Deep-Dive Split Layout -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- Results Table (8 Columns on desktop) -->
+<div class="xl:col-span-8 flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Test Execution Stream</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest font-mono-code text-mono-code text-on-surface-variant">Showing Sample Telemetry (TC-01 - TC-06)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-outline">AUTO-SCROLL</span>
+<span class="relative inline-flex h-2 w-2 rounded-full bg-secondary"></span>
+</div>
+</div>
+<div class="overflow-x-auto rounded bg-surface-container-low shadow-md">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-lowest text-outline font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-space-md px-space-md font-semibold">Test ID</th>
+<th class="py-space-md px-space-sm font-semibold">Category</th>
+<th class="py-space-md px-space-md font-semibold">Test Vector Payload (Sanitized)</th>
+<th class="py-space-md px-space-sm font-semibold">Expected</th>
+<th class="py-space-md px-space-sm font-semibold">Actual</th>
+<th class="py-space-md px-space-sm font-semibold text-right">Latency</th>
+<th class="py-space-md px-space-md font-semibold text-center">Evaluation Result</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container font-body-sm text-body-sm">
+<!-- TC-01 -->
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-3 px-space-md font-mono-data text-mono-data text-primary font-medium">TC-01</td>
+<td class="py-3 px-space-sm font-label-md text-label-md text-on-surface-variant">SQLi</td>
+<td class="py-3 px-space-md font-mono-code text-mono-code text-on-surface break-all max-w-[280px]">
+<code class="px-1 py-0.5 rounded bg-surface-container-highest">/api/users?id=1 UNION SELECT null, username, pass FROM users</code>
+</td>
+<td class="py-3 px-space-sm font-label-sm text-label-sm text-outline uppercase font-semibold">BLOCK</td>
+<td class="py-3 px-space-sm font-label-sm text-label-sm text-error uppercase font-semibold">
+<span class="inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                  BLOCKED
+                </span>
+</td>
+<td class="py-3 px-space-sm font-mono-data text-mono-data text-on-surface-variant text-right">1.1ms</td>
+<td class="py-3 px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-secondary-container/20 text-secondary font-label-sm text-label-sm uppercase font-semibold">
+<span class="material-symbols-outlined text-xs">check</span>
+                  PASS (True Positive)
+                </span>
+</td>
+</tr>
+<!-- TC-02 -->
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-3 px-space-md font-mono-data text-mono-data text-primary font-medium">TC-02</td>
+<td class="py-3 px-space-sm font-label-md text-label-md text-on-surface-variant">Normal</td>
+<td class="py-3 px-space-md font-mono-code text-mono-code text-on-surface break-all max-w-[280px]">
+<code class="px-1 py-0.5 rounded bg-surface-container-highest">GET /index.html HTTP/1.1</code>
+</td>
+<td class="py-3 px-space-sm font-label-sm text-label-sm text-outline uppercase font-semibold">ALLOW</td>
+<td class="py-3 px-space-sm font-label-sm text-label-sm text-secondary uppercase font-semibold">
+<span class="inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  ALLOWED
+                </span>
+</td>
+<td class="py-3 px-space-sm font-mono-data text-mono-data text-on-surface-variant text-right">0.4ms</td>
+<td class="py-3 px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-secondary-container/20 text-secondary font-label-sm text-label-sm uppercase font-semibold">
+<span class="material-symbols-outlined text-xs">check</span>
+                  PASS (True Negative)
+                </span>
+</td>
+</tr>
+<!-- TC-03 -->
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-3 px-space-md font-mono-data text-mono-data text-primary font-medium">TC-03</td>
+<td class="py-3 px-space-sm font-label-md text-label-md text-on-surface-variant">XSS</td>
+<td class="py-3 px-space-md font-mono-code text-mono-code text-on-surface break-all max-w-[280px]">
+<code class="px-1 py-0.5 rounded bg-surface-container-highest">&lt;img src=x onerror=prompt(1)&gt; in POST /comments</code>
+</td>
+<td class="py-3 px-space-sm font-label-sm text-label-sm text-outline uppercase font-semibold">BLOCK</td>
+<td class="py-3 px-space-sm font-label-sm text-label-sm text-error uppercase font-semibold">
+<span class="inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                  BLOCKED
+                </span>
+</td>
+<td class="py-3 px-space-sm font-mono-data text-mono-data text-on-surface-variant text-right">0.9ms</td>
+<td class="py-3 px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-secondary-container/20 text-secondary font-label-sm text-label-sm uppercase font-semibold">
+<span class="material-symbols-outlined text-xs">check</span>
+                  PASS (True Positive)
+                </span>
+</td>
+</tr>
+<!-- TC-04 -->
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-3 px-space-md font-mono-data text-mono-data text-primary font-medium">TC-04</td>
+<td class="py-3 px-space-sm font-label-md text-label-md text-on-surface-variant">Path Traversal</td>
+<td class="py-3 px-space-md font-mono-code text-mono-code text-on-surface break-all max-w-[280px]">
+<code class="px-1 py-0.5 rounded bg-surface-container-highest">GET /download?file=../../../../winnt/win.ini</code>
+</td>
+<td class="py-3 px-space-sm font-label-sm text-label-sm text-outline uppercase font-semibold">BLOCK</td>
+<td class="py-3 px-space-sm font-label-sm text-label-sm text-error uppercase font-semibold">
+<span class="inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                  BLOCKED
+                </span>
+</td>
+<td class="py-3 px-space-sm font-mono-data text-mono-data text-on-surface-variant text-right">1.3ms</td>
+<td class="py-3 px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-secondary-container/20 text-secondary font-label-sm text-label-sm uppercase font-semibold">
+<span class="material-symbols-outlined text-xs">check</span>
+                  PASS (True Positive)
+                </span>
+</td>
+</tr>
+<!-- TC-05 -->
+<tr class="hover:bg-surface-container transition-colors">
+<td class="py-3 px-space-md font-mono-data text-mono-data text-primary font-medium">TC-05</td>
+<td class="py-3 px-space-sm font-label-md text-label-md text-on-surface-variant">Command Inj</td>
+<td class="py-3 px-space-md font-mono-code text-mono-code text-on-surface break-all max-w-[280px]">
+<code class="px-1 py-0.5 rounded bg-surface-container-highest">ping -c 4 127.0.0.1; whoami in POST /diagnostics</code>
+</td>
+<td class="py-3 px-space-sm font-label-sm text-label-sm text-outline uppercase font-semibold">BLOCK</td>
+<td class="py-3 px-space-sm font-label-sm text-label-sm text-error uppercase font-semibold">
+<span class="inline-flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                  BLOCKED
+                </span>
+</td>
+<td class="py-3 px-space-sm font-mono-data text-mono-data text-on-surface-variant text-right">1.8ms</td>
+<td class="py-3 px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-secondary-container/20 text-secondary font-label-sm text-label-sm uppercase font-semibold">
+<span class="material-symbols-outlined text-xs">check</span>
+                  PASS (True Positive)
+                </span>
+</td>
+</tr>
+<!-- TC-06 (The False Negative Highlight Row) -->
+<tr class="bg-error-container/20 hover:bg-error-container/30 transition-colors">
+<td class="py-3 px-space-md font-mono-data text-mono-data text-error font-bold flex items-center gap-1">
+<span>TC-06</span>
+<span class="material-symbols-outlined text-xs text-error">priority_high</span>
+</td>
+<td class="py-3 px-space-sm font-label-md text-label-md text-error">SQLi (Obfuscated)</td>
+<td class="py-3 px-space-md font-mono-code text-mono-code text-error font-medium break-all max-w-[280px]">
+<code class="px-1 py-0.5 rounded bg-error-container/40 text-on-error-container">%2f%2a%2a%2funion%2f%2a%2a%2fselect</code>
+</td>
+<td class="py-3 px-space-sm font-label-sm text-label-sm text-outline uppercase font-semibold">BLOCK</td>
+<td class="py-3 px-space-sm font-label-sm text-label-sm text-secondary uppercase font-semibold">
+<span class="inline-flex items-center gap-1 text-error">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span>
+                  ALLOWED
+                </span>
+</td>
+<td class="py-3 px-space-sm font-mono-data text-mono-data text-error text-right">1.4ms</td>
+<td class="py-3 px-space-md text-center">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-error-container text-error font-label-sm text-label-sm uppercase font-semibold">
+<span class="material-symbols-outlined text-xs">close</span>
+                  FAIL (Rule Evasion)
+                </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Execution Legend / Micro Status Bar -->
+<div class="flex flex-wrap items-center justify-between text-outline font-label-sm text-label-sm px-1 py-1">
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded bg-secondary"></span>TP / TN Pass Verified</span>
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded bg-error"></span>FN Heuristic Defect (Attention Required)</span>
+</div>
+<span>Evaluation Standard: Heuristic Engine RFC-8821 v2.4</span>
+</div>
+</div>
+<!-- Evasion Deep-Dive Panel / Drawer (4 Columns on desktop) -->
+<div class="xl:col-span-4 flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-base">troubleshoot</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Evasion Deep-Dive</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-error-container text-error font-label-sm text-label-sm uppercase font-semibold">1 Alert</span>
+</div>
+<!-- Deep Dive Card -->
+<div class="rounded bg-surface-container-low p-space-md shadow-md flex flex-col gap-space-md relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-1 bg-error"></div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-sm text-label-sm text-error uppercase font-semibold">Investigation Target</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-highest font-mono-code text-mono-code text-on-surface">TC-06</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold leading-tight">
+            False Negative Analysis
+          </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+            TC-06 bypassed Rule <code class="px-1 py-0.5 rounded bg-surface-container font-mono-code text-primary">SS-SQLI-002</code> due to URL encoded multi-line comment delimiters.
+          </p>
+</div>
+<!-- Token Dissection Breakdown -->
+<div class="space-y-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline block">Raw Ingress Token Breakdown</span>
+<div class="p-2.5 rounded bg-surface-container-lowest font-mono-code text-mono-code flex flex-col gap-1.5">
+<div class="flex justify-between items-center text-outline">
+<span>INGRESS PAYLOAD:</span>
+<span class="text-error font-semibold">UNMATCHED</span>
+</div>
+<div class="text-error break-all bg-surface-container-high/40 p-1 rounded">
+              %2f%2a%2a%2funion%2f%2a%2a%2fselect
+            </div>
+<div class="flex justify-between items-center text-outline pt-1">
+<span>CANONICAL NORMALIZED:</span>
+<span class="text-secondary font-semibold">SYNTAX DETECTED</span>
+</div>
+<div class="text-secondary break-all bg-surface-container-high/40 p-1 rounded">
+              /**/union/**/select
+            </div>
+</div>
+</div>
+<!-- Root Cause Narrative -->
+<div class="space-y-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline block">Diagnosis Root Cause</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            The standard tokenizer executes standard regex prior to recursively decoding encoded multi-byte comments (<code class="font-mono-code text-primary">%2f%2a = /*</code>). The SQL engine parses whitespace comments transparently, enabling execution bypass.
+          </p>
+</div>
+<!-- Recommended Mitigation Action -->
+<div class="p-space-sm rounded bg-surface-container-lowest flex flex-col gap-space-sm">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-lg mt-0.5">verified_user</span>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold block">Recommended Action</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Enable Deep URL Normalization in Detection Rules.</span>
+</div>
+</div>
+<div class="flex items-center gap-2 pt-1">
+<button class="w-full py-2 px-space-sm rounded bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm transition-colors text-center shadow-sm">
+              Apply Fix: SS-SQLI-009 Deep Normalize
+            </button>
+</div>
+</div>
+<!-- Rule Simulation Benchmark Comparison -->
+<div class="flex items-center justify-between text-outline font-mono-code text-mono-code pt-1">
+<span>Projected Post-Patch Accuracy:</span>
+<span class="text-secondary font-semibold">100.0% (185/185)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Lab Micro-Interactions Script -->
+<script>
+  (function() {
+    const btnStart = document.getElementById('btn-start-suite');
+    const btnStop = document.getElementById('btn-stop-suite');
+    const btnReset = document.getElementById('btn-reset-suite');
+
+    if (btnStart) {
+      btnStart.addEventListener('click', function() {
+        btnStart.classList.add('opacity-80');
+        btnStart.innerHTML = '<span class="material-symbols-outlined text-lg animate-spin">refresh</span><span>Running Suite (20 req/s)...</span>';
+        setTimeout(() => {
+          btnStart.classList.remove('opacity-80');
+          btnStart.innerHTML = '<span class="material-symbols-outlined text-lg leading-none" style="font-variation-settings: \'FILL\' 1;">play_arrow</span><span>Suite Completed (250/250)</span>';
+        }, 1200);
+      });
+    }
+
+    if (btnStop) {
+      btnStop.addEventListener('click', function() {
+        if (btnStart) {
+          btnStart.innerHTML = '<span class="material-symbols-outlined text-lg leading-none" style="font-variation-settings: \'FILL\' 1;">play_arrow</span><span>Start Automated Test Suite</span>';
+        }
+      });
+    }
+
+    if (btnReset) {
+      btnReset.addEventListener('click', function() {
+        if (btnStart) {
+          btnStart.innerHTML = '<span class="material-symbols-outlined text-lg leading-none" style="font-variation-settings: \'FILL\' 1;">play_arrow</span><span>Start Automated Test Suite</span>';
+        }
+      });
+    }
+  })();
+</script></main></div></body></html>

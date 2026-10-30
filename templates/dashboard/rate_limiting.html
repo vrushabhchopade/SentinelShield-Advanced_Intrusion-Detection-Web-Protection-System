@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex flex-col w-full gap-space-lg">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+    <div>
+      <div class="flex items-center gap-space-sm mb-1 font-mono text-[11px] text-tertiary uppercase tracking-widest">
+        <span>Traffic Shaping</span>
+        <span>/</span>
+        <span>Volume Flood Defense</span>
+      </div>
+      <h1 class="text-2xl font-bold text-on-surface tracking-tight">Rate Limiting &amp; IP Activity</h1>
+      <p class="text-xs text-on-surface-variant mt-0.5">Sliding-window request frequency tracking, brute-force mitigation, and IP cooldown telemetry</p>
+    </div>
+
+    <!-- Active Cooldown Badge -->
+    <div class="flex items-center gap-2">
+      <span class="px-3 py-1.5 rounded-lg bg-tertiary-container/20 border border-tertiary/40 font-mono text-xs text-tertiary font-bold flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-sm">speed</span>
+        <span>SLIDING WINDOW ACTIVE</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Config KPI Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+    <div class="p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm">
+      <span class="font-mono text-[11px] uppercase tracking-wider text-outline font-semibold">General Threshold</span>
+      <div class="font-mono text-2xl font-bold text-primary my-1">{{ threshold }} req/min</div>
+      <span class="font-mono text-[11px] text-outline">Window: {{ window_secs }} seconds</span>
+    </div>
+
+    <div class="p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm">
+      <span class="font-mono text-[11px] uppercase tracking-wider text-outline font-semibold">Auth Burst Threshold</span>
+      <div class="font-mono text-2xl font-bold text-error my-1">10 req/min</div>
+      <span class="font-mono text-[11px] text-outline">Targeting /auth/ &amp; login routes</span>
+    </div>
+
+    <div class="p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm">
+      <span class="font-mono text-[11px] uppercase tracking-wider text-outline font-semibold">Cooldown Restriction</span>
+      <div class="font-mono text-2xl font-bold text-tertiary my-1">{{ block_secs }}s</div>
+      <span class="font-mono text-[11px] text-outline">HTTP 429 Retry-After</span>
+    </div>
+
+    <div class="p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm">
+      <span class="font-mono text-[11px] uppercase tracking-wider text-outline font-semibold">Storage Engine</span>
+      <div class="font-mono text-xl font-bold text-secondary my-1">LocMemCache</div>
+      <span class="font-mono text-[11px] text-secondary">Concurrency-safe</span>
+    </div>
+  </div>
+
+  <!-- Manual Reset IP Utility -->
+  <div class="p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-space-md">
+    <div class="flex items-center gap-3">
+      <span class="material-symbols-outlined text-primary text-xl">build</span>
+      <div>
+        <h3 class="text-xs font-bold text-on-surface">Administrative Client Cooldown Override</h3>
+        <p class="text-[11px] text-outline">Clear temporary rate-limiting restrictions for a specified IP address</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 w-full sm:w-auto">
+      <input id="unblock-ip-input" type="text" placeholder="e.g. 127.0.0.1"
+             class="bg-surface-container-lowest border border-outline-variant rounded px-3 py-1.5 font-mono text-xs text-on-surface outline-none focus:border-primary w-48"/>
+      <button onclick="unblockClientIP()" class="px-3.5 py-1.5 rounded bg-primary-container text-on-primary-container hover:bg-primary font-mono text-xs font-bold transition-colors">
+        Reset IP
+      </button>
+    </div>
+  </div>
+
+  <!-- Rate Limit Event History Table -->
+  <div class="p-space-lg rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-sm font-bold text-on-surface flex items-center gap-2">
+        <span class="material-symbols-outlined text-tertiary text-base">history</span>
+        <span>Rate Limit Enforcement History</span>
+      </h2>
+      <span class="font-mono text-xs text-outline">Real-time cache &amp; DB sync</span>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left font-mono text-xs">
+        <thead>
+          <tr class="border-b border-outline-variant text-outline text-[11px] uppercase">
+            <th class="pb-2.5">Time (UTC)</th>
+            <th class="pb-2.5">Source IP</th>
+            <th class="pb-2.5">Target Path</th>
+            <th class="pb-2.5">Request Count</th>
+            <th class="pb-2.5">Threshold</th>
+            <th class="pb-2.5">Action Taken</th>
+            <th class="pb-2.5 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant/40" id="ratelimit-table-body">
+          {% for r in rate_events %}
+          <tr class="hover:bg-surface-container/50 transition-colors">
+            <td class="py-2.5 text-outline whitespace-nowrap">{{ r.created_at|date:"Y-m-d H:i:s" }}</td>
+            <td class="py-2.5 font-bold text-primary">{{ r.source_ip }}</td>
+            <td class="py-2.5 max-w-[200px] truncate text-on-surface-variant">{{ r.path }}</td>
+            <td class="py-2.5 text-error font-bold">{{ r.request_count }}</td>
+            <td class="py-2.5 text-outline">{{ r.threshold }}</td>
+            <td class="py-2.5">
+              <span class="px-1.5 py-0.5 rounded bg-tertiary-container/30 text-tertiary font-bold text-[10px]">
+                {{ r.action_taken }}
+              </span>
+            </td>
+            <td class="py-2.5 text-right">
+              <button onclick="unblockSpecificIP('{{ r.source_ip }}')" class="px-2 py-0.5 rounded bg-surface-container hover:bg-surface-container-highest text-primary text-[11px] transition-colors">
+                Unblock
+              </button>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7" class="py-8 text-center text-outline">No rate limit violations recorded yet. Traffic levels within configured thresholds.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  async function unblockClientIP() {
+    const ip = document.getElementById('unblock-ip-input').value.trim();
+    if (!ip) {
+      showToast('Enter a valid IP address', 'error');
+      return;
+    }
+    await unblockSpecificIP(ip);
+  }
+
+  async function unblockSpecificIP(ip) {
+    try {
+      const res = await fetch('/api/v1/rate-limits/reset_client/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({ ip: ip })
+      });
+      if (res.ok) {
+        showToast(`Restrictions reset for ${ip}`, 'success');
+        document.getElementById('unblock-ip-input').value = "";
+      } else {
+        showToast('Failed to reset rate limit', 'error');
+      }
+    } catch(e) {
+      showToast('Error communicating with rate limiter', 'error');
+    }
+  }
+</script>
+{% endblock %}

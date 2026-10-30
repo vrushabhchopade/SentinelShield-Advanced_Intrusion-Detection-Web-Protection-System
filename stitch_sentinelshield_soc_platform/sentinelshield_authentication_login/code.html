@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"inverse-on-surface":"#2c303b","primary-fixed-dim":"#adc6ff","surface-container-lowest":"#0a0e18","on-tertiary-container":"#340080","on-surface":"#dfe2f1","surface-container-low":"#171b26","inverse-surface":"#dfe2f1","on-error-container":"#ffdad6","tertiary-container":"#a078ff","on-surface-variant":"#c2c6d6","tertiary":"#d0bcff","on-tertiary":"#3c0091","secondary-fixed-dim":"#4edea3","on-primary-fixed-variant":"#004395","on-primary-container":"#00285d","surface-container-highest":"#313540","primary":"#adc6ff","tertiary-fixed-dim":"#d0bcff","on-tertiary-fixed-variant":"#5516be","outline-variant":"#424754","on-primary-fixed":"#001a42","surface-container":"#1c1f2a","tertiary-fixed":"#e9ddff","on-background":"#dfe2f1","primary-fixed":"#d8e2ff","on-tertiary-fixed":"#23005c","error-container":"#93000a","on-secondary":"#003824","outline":"#8c909f","inverse-primary":"#005ac2","surface-bright":"#353944","surface-container-high":"#262a35","secondary":"#4edea3","surface-dim":"#0f131d","surface":"#0f131d","on-secondary-fixed-variant":"#005236","background":"#0f131d","secondary-fixed":"#6ffbbe","on-secondary-container":"#00311f","surface-variant":"#313540","primary-container":"#4d8eff","surface-tint":"#adc6ff","error":"#ffb4ab","on-error":"#690005","on-primary":"#002e6a","on-secondary-fixed":"#002113","secondary-container":"#00a572"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-2xl":"2rem","gutter":"1rem","margin-mobile":"0.75rem","space-md":"0.75rem","space-lg":"1rem","space-xs":"0.25rem","space-sm":"0.5rem","gutter-compact":"0.5rem","margin":"1.5rem","space-xl":"1.5rem"},fontFamily:{"display-xl-mobile":["Inter"],"headline-lg":["Inter"],"mono-metric":["JetBrains Mono"],"display-xl":["Inter"],"body-md":["Inter"],"label-md":["JetBrains Mono"],"label-sm":["JetBrains Mono"],"headline-md":["Inter"],"mono-code":["JetBrains Mono"],"body-lg":["Inter"],"body-sm":["Inter"],"mono-data":["JetBrains Mono"],"headline-sm":["Inter"]},fontSize:{"display-xl-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"700"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"mono-metric":["28px",{"lineHeight":"32px","letterSpacing":"-0.03em","fontWeight":"600"}],"display-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"500"}],"label-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.06em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"mono-code":["11px",{"lineHeight":"16px","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"mono-data":["13px",{"lineHeight":"20px","fontWeight":"400"}],"headline-sm":["16px",{"lineHeight":"24px","fontWeight":"600"}]}}}};</script></head><body class="bg-surface text-on-surface font-body-md text-body-md antialiased min-h-screen flex items-center justify-center p-space-lg"><main class="w-full max-w-md"><div class="flex flex-col w-full">
+<div class="relative w-full overflow-hidden rounded-xl bg-surface-container-lowest p-space-md sm:p-space-xl shadow-2xl">
+<!-- Cyber Geometric Mesh Overlay -->
+<div class="absolute inset-0 pointer-events-none opacity-20">
+<svg class="w-full h-full text-outline-variant" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern height="32" id="sec-grid" patternunits="userSpaceOnUse" width="32">
+<path d="M 32 0 L 0 0 0 32" fill="none" stroke="currentColor" stroke-width="0.75"></path>
+<circle cx="0" cy="0" fill="currentColor" r="1.5"></circle>
+</pattern>
+</defs>
+<rect fill="url(#sec-grid)" height="100%" width="100%"></rect>
+</svg>
+</div>
+<!-- Ambient SOC Glows -->
+<div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-secondary/10 blur-3xl pointer-events-none"></div>
+<div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-stretch">
+<!-- Left Column: Branding & Telemetry Overview -->
+<div class="lg:col-span-5 flex flex-col justify-between p-space-lg sm:p-space-xl rounded-lg bg-surface-container-low shadow-sm">
+<div class="space-y-space-xl">
+<!-- Logo & Header -->
+<div class="space-y-space-md">
+<div class="flex items-center gap-space-md">
+<img alt="SentinelShield Cybersecurity Logo" class="w-12 h-12 rounded-lg object-contain shadow-md p-1 bg-surface-container" src="https://lh3.googleusercontent.com/aida/AEtjO1V8-TsXc-tOR2wJf29v-nicrxNeA_VTQaGfxKjQPKe0YrPGYygD3wImhGk64ho6BQX_gXEGYGals12KUF9mRpBfOCIlVcOfPpAfIx3sBGKLWrGeqz06aQQwqDMI4lVJ00x9cHgcUzlk199-Hj472JIJ0phzOiXnaQ5G3SftrUoOYxWc7yPnp-uh4-MdWy3Ns4JD4mvyRyo3a3M3nMBQArHWFwhmu2xQWUXu6irnz1oQTQ"/>
+<div>
+<span class="inline-block font-label-sm text-label-sm text-secondary uppercase tracking-widest">DEFENSE MATRIX v4.2</span>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">SentinelShield IDS &amp; WAF</h1>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Next-Generation Web Protection &amp; Threat Intelligence Platform engineered for zero-trust traffic analysis.
+            </p>
+</div>
+<!-- Feature Highlights -->
+<div class="space-y-space-md">
+<h2 class="font-label-md text-label-md uppercase tracking-wider text-primary">Core Modules Active</h2>
+<div class="space-y-space-sm">
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container transition-all hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-secondary text-[20px] mt-0.5">verified_user</span>
+<div class="min-w-0">
+<div class="font-headline-sm text-headline-sm text-on-surface truncate">Real-time HTTP Payload Inspection</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Deep-packet tokenization &amp; heuristic anomaly detection</div>
+</div>
+</div>
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container transition-all hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">terminal</span>
+<div class="min-w-0">
+<div class="font-headline-sm text-headline-sm text-on-surface truncate">Heuristic &amp; Regex Rule Engine</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Deterministic threat parsing with low-latency regex buffers</div>
+</div>
+</div>
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container transition-all hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-tertiary text-[20px] mt-0.5">science</span>
+<div class="min-w-0">
+<div class="font-headline-sm text-headline-sm text-on-surface truncate">Simulated Local Attack Lab</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Inject synthesized XSS, SQLi, and SSRF attack vectors</div>
+</div>
+</div>
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container transition-all hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-secondary-fixed text-[20px] mt-0.5">school</span>
+<div class="min-w-0">
+<div class="font-headline-sm text-headline-sm text-on-surface truncate">Educational SOC Environment</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Sandboxed telemetry traces &amp; incident forensics training</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Telemetry Heartbeat -->
+<div class="mt-space-xl pt-space-md bg-surface-container p-space-md rounded-lg">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-secondary"></span>
+</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">NODE SEC-01 CLUSTER</span>
+</div>
+<span class="font-mono-code text-mono-code text-on-surface-variant">LATENCY 4.2ms</span>
+</div>
+<div class="mt-2 flex items-center justify-between text-on-surface-variant font-mono-code text-mono-code">
+<span>PACKETS: 148,209/s</span>
+<span>BLOCKED: 312</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Authentication Card -->
+<div class="lg:col-span-7 flex flex-col justify-between p-space-lg sm:p-space-xl rounded-lg bg-surface-container-low shadow-sm">
+<div class="space-y-space-md">
+<!-- Card Tab Navigation -->
+<div class="flex items-center justify-between bg-surface-container p-1 rounded-lg">
+<button class="flex-1 py-1.5 px-3 rounded-lg font-label-md text-label-md transition-all text-on-primary bg-primary-container shadow-sm" id="tab-signin" onclick="switchTab('signin')" type="button">
+              Sign In
+            </button>
+<button class="flex-1 py-1.5 px-3 rounded-lg font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface" id="tab-register" onclick="switchTab('register')" type="button">
+              Register Analyst
+            </button>
+<button class="flex-1 py-1.5 px-3 rounded-lg font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface" id="tab-reset" onclick="switchTab('reset')" type="button">
+              Reset Key
+            </button>
+</div>
+<!-- Header & Environment Pill -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pt-space-xs">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface" id="view-title">Sign in to SOC Console</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant" id="view-subtitle">Enter your analyst credentials to access telemetry</p>
+</div>
+<div>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-surface-container-highest text-primary-fixed">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-fixed animate-pulse"></span>
+                LOCAL TEST ENV • DEMO MODE
+              </span>
+</div>
+</div>
+<!-- Interactive Simulation Info Banner -->
+<div class="flex items-start gap-space-sm p-space-sm rounded-lg bg-surface-container-high text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">info</span>
+<div class="font-body-sm text-body-sm text-on-surface-variant flex-1">
+<span class="font-headline-sm text-headline-sm text-on-surface">Demo Simulation Mode:</span>
+              Click <span class="text-primary font-medium">Authenticate</span> to bypass with pre-filled test analyst identity, or trigger validation scenarios.
+            </div>
+</div>
+<!-- Subtle Dismissible Error State -->
+<div class="flex items-start justify-between gap-space-sm p-space-sm rounded-lg bg-error-container text-on-error-container" id="error-banner">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-error">gpp_maybe</span>
+<p class="font-body-sm text-body-sm text-on-error-container">
+<span class="font-medium">Authentication Alert:</span> Test credentials do not match node vault. Verify analyst token status.
+              </p>
+</div>
+<button aria-label="Dismiss error" class="text-on-error-container hover:opacity-75" onclick="dismissError()" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Sign-In Form -->
+<form class="space-y-space-md pt-space-xs" id="auth-form" onsubmit="handleAuth(event)">
+<!-- Analyst ID / Email -->
+<div class="space-y-1">
+<label class="block font-label-md text-label-md text-on-surface" for="analyst-id">Analyst ID or Work Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[20px]">badge</span>
+<input class="w-full bg-surface-container-lowest text-on-surface pl-10 pr-4 py-2 rounded-lg font-mono-data text-mono-data focus:outline-none focus:bg-surface-container transition-all" id="analyst-id" placeholder="analyst@sentinelshield.internal" required="" type="text" value="analyst@sentinelshield.internal"/>
+</div>
+</div>
+<!-- Password / Token -->
+<div class="space-y-1">
+<div class="flex items-center justify-between">
+<label class="block font-label-md text-label-md text-on-surface" for="analyst-password">SOC Access Key / Secret</label>
+<a class="font-body-sm text-body-sm text-primary hover:underline" href="javascript:void(0)" onclick="switchTab('reset')">Forgot Access Key?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[20px]">key</span>
+<input class="w-full bg-surface-container-lowest text-on-surface pl-10 pr-10 py-2 rounded-lg font-mono-data text-mono-data focus:outline-none focus:bg-surface-container transition-all" id="analyst-password" required="" type="password" value="DemoShield#2025"/>
+<button aria-label="Toggle password visibility" class="absolute right-3 top-2 text-on-surface-variant hover:text-on-surface" onclick="togglePasswordVisibility()" type="button">
+<span class="material-symbols-outlined text-[20px]" id="eye-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Additional Controls -->
+<div class="flex items-center justify-between pt-space-xs">
+<label class="flex items-center gap-2 cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded-sm bg-surface-container-lowest accent-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Remember terminal session (8 hours)</span>
+</label>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock</span> TLS 1.3
+              </span>
+</div>
+<!-- Submit Primary Button -->
+<button class="w-full flex items-center justify-center gap-space-sm bg-primary-container hover:opacity-90 active:opacity-100 text-on-primary font-headline-sm text-headline-sm py-2.5 px-4 rounded-lg shadow-md transition-all" id="submit-button" type="submit">
+<span class="material-symbols-outlined text-[20px]">login</span>
+<span id="submit-text">Authenticate &amp; Access SOC</span>
+</button>
+</form>
+</div>
+<!-- Security Policy Disclaimer -->
+<div class="mt-space-lg pt-space-md bg-surface-container-lowest p-space-sm rounded-lg">
+<div class="flex items-center justify-between text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-error">shield</span>
+<span class="font-label-sm text-label-sm uppercase">Restricted Educational Sandbox</span>
+</div>
+<span class="font-mono-code text-mono-code">AUTH-POL: SEC-4029</span>
+</div>
+<p class="mt-1 font-body-sm text-body-sm text-on-surface-variant">
+            All operational keystrokes and payload testing are logged to immutable append-only ledgers. Unauthorized intrusions are dispatched to central SIRT.
+          </p>
+</div>
+</div>
+</div>
+</div>
+<script>
+    function togglePasswordVisibility() {
+      const input = document.getElementById('analyst-password');
+      const icon = document.getElementById('eye-icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility_off';
+      } else {
+        input.type = 'password';
+        icon.textContent = 'visibility';
+      }
+    }
+
+    function dismissError() {
+      const banner = document.getElementById('error-banner');
+      if (banner) {
+        banner.classList.add('hidden');
+      }
+    }
+
+    function switchTab(mode) {
+      const signinTab = document.getElementById('tab-signin');
+      const registerTab = document.getElementById('tab-register');
+      const resetTab = document.getElementById('tab-reset');
+
+      const title = document.getElementById('view-title');
+      const subtitle = document.getElementById('view-subtitle');
+      const submitText = document.getElementById('submit-text');
+
+      const tabs = [signinTab, registerTab, resetTab];
+      tabs.forEach(tab => {
+        tab.className = "flex-1 py-1.5 px-3 rounded-lg font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface";
+      });
+
+      if (mode === 'signin') {
+        signinTab.className = "flex-1 py-1.5 px-3 rounded-lg font-label-md text-label-md transition-all text-on-primary bg-primary-container shadow-sm";
+        title.textContent = 'Sign in to SOC Console';
+        subtitle.textContent = 'Enter your analyst credentials to access telemetry';
+        submitText.textContent = 'Authenticate & Access SOC';
+      } else if (mode === 'register') {
+        registerTab.className = "flex-1 py-1.5 px-3 rounded-lg font-label-md text-label-md transition-all text-on-primary bg-primary-container shadow-sm";
+        title.textContent = 'Register Test Analyst';
+        subtitle.textContent = 'Initialize an ephemeral sandbox profile with baseline privileges';
+        submitText.textContent = 'Provision Sandbox Key';
+      } else if (mode === 'reset') {
+        resetTab.className = "flex-1 py-1.5 px-3 rounded-lg font-label-md text-label-md transition-all text-on-primary bg-primary-container shadow-sm";
+        title.textContent = 'Reset Access Credentials';
+        subtitle.textContent = 'Issue temporary token to local vault store';
+        submitText.textContent = 'Dispatch Vault Recovery';
+      }
+    }
+
+    function handleAuth(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-button');
+      const orig = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[20px]">sync</span><span>Validating Node Signature...</span>`;
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = orig;
+        alert('SOC Terminal session verified. Redirecting to live incident stream...');
+      }, 900);
+    }
+  </script>
+</div></main></body></html>

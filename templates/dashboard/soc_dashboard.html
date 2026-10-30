@@ -1,0 +1,444 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex flex-col w-full gap-space-lg">
+  <!-- Operational Mode Notification & Controls Bar -->
+  <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-md p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm">
+    <div class="flex items-center gap-space-md">
+      <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-tertiary-container/20 text-tertiary border border-tertiary/30">
+        <span class="material-symbols-outlined text-xl">science</span>
+      </div>
+      <div class="flex flex-col">
+        <div class="flex items-center gap-2">
+          <span class="font-bold text-base text-on-surface">Security Operations Center</span>
+          <span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-tertiary font-mono text-[10px] tracking-wide uppercase border border-outline-variant">
+            {{ SENTINEL_MODE }} Mode
+          </span>
+        </div>
+        <p class="text-xs text-on-surface-variant">Real-time HTTP threat monitoring and web protection analytics</p>
+      </div>
+    </div>
+
+    <!-- Timeline & Stream Controls -->
+    <div class="flex flex-wrap items-center gap-space-sm self-stretch lg:self-auto justify-end">
+      <!-- Time Range Selector -->
+      <div class="inline-flex p-1 rounded-lg bg-surface-container-lowest border border-outline-variant" id="range-selector">
+        <button onclick="setRange('15m')" class="px-3 py-1 text-on-surface-variant hover:text-on-surface font-mono text-xs rounded transition-all" data-range="15m">15m</button>
+        <button onclick="setRange('1h')" class="px-3 py-1 text-on-surface-variant hover:text-on-surface font-mono text-xs rounded transition-all" data-range="1h">1h</button>
+        <button onclick="setRange('24h')" class="px-3 py-1 bg-surface-container text-primary font-bold font-mono text-xs rounded transition-all shadow-sm" data-range="24h">24h</button>
+      </div>
+
+      <!-- Auto-Refresh Toggle -->
+      <button onclick="toggleAutoRefresh()" id="refresh-toggle-btn"
+              class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant transition-colors text-on-surface">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+        </span>
+        <span class="font-mono text-xs" id="refresh-label">Auto-Refresh (10s)</span>
+      </button>
+
+      <!-- Quick Test Packet Injector -->
+      <a href="{% url 'live-request-inspector' %}" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-container text-on-primary-container hover:bg-primary font-mono text-xs font-bold transition-colors">
+        <span class="material-symbols-outlined text-sm">terminal</span>
+        <span>Test Payload</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 5-Metric Strategic Command KPI Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-md">
+    <!-- KPI 1: Total Requests -->
+    <div class="flex flex-col justify-between p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm">
+      <div class="flex items-start justify-between">
+        <span class="font-mono text-[11px] uppercase tracking-wider text-outline font-semibold">Total Requests</span>
+        <span class="inline-flex items-center gap-1 font-mono text-[10px] text-secondary bg-secondary-container/20 px-1.5 py-0.5 rounded">
+          <span class="material-symbols-outlined text-xs">trending_up</span>Live
+        </span>
+      </div>
+      <div class="my-space-sm">
+        <div class="font-mono text-2xl font-bold text-on-surface" id="kpi-total-requests">{{ total_events }}</div>
+      </div>
+      <div class="flex items-center justify-between font-mono text-[11px] text-outline pt-space-xs border-t border-outline-variant/30">
+        <span class="text-secondary" id="kpi-safe-ratio">{{ safe_ratio }}% safe</span>
+        <span>{{ allowed_count }} clean</span>
+      </div>
+    </div>
+
+    <!-- KPI 2: Malicious Ingress -->
+    <div class="flex flex-col justify-between p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm">
+      <div class="flex items-start justify-between">
+        <span class="font-mono text-[11px] uppercase tracking-wider text-outline font-semibold">Malicious Ingress</span>
+        <span class="font-mono text-[10px] font-bold text-error bg-error-container/40 px-1.5 py-0.5 rounded">
+          Violations
+        </span>
+      </div>
+      <div class="my-space-sm">
+        <div class="font-mono text-2xl font-bold text-error" id="kpi-malicious-count">{{ malicious_count }}</div>
+      </div>
+      <div class="flex items-center justify-between font-mono text-[11px] text-outline pt-space-xs border-t border-outline-variant/30">
+        <span class="text-error flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>Flagged Probes
+        </span>
+        <span id="kpi-malicious-sub">{{ malicious_count }} logged</span>
+      </div>
+    </div>
+
+    <!-- KPI 3: Automated Mitigations -->
+    <div class="flex flex-col justify-between p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm">
+      <div class="flex items-start justify-between">
+        <span class="font-mono text-[11px] uppercase tracking-wider text-outline font-semibold">Mitigations (Blocked)</span>
+        <span class="font-mono text-[10px] text-secondary bg-secondary-container/20 px-1.5 py-0.5 rounded">
+          {{ mitigation_rate }}% Rate
+        </span>
+      </div>
+      <div class="my-space-sm">
+        <div class="font-mono text-2xl font-bold text-secondary" id="kpi-blocked-count">{{ blocked_count }}</div>
+      </div>
+      <div class="flex items-center justify-between font-mono text-[11px] text-outline pt-space-xs border-t border-outline-variant/30">
+        <span>Zero Human Delay</span>
+        <span>HTTP 403 Enforced</span>
+      </div>
+    </div>
+
+    <!-- KPI 4: Rate Limited -->
+    <div class="flex flex-col justify-between p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm">
+      <div class="flex items-start justify-between">
+        <span class="font-mono text-[11px] uppercase tracking-wider text-outline font-semibold">Rate Limit Floods</span>
+        <span class="font-mono text-[10px] text-tertiary bg-tertiary-container/20 px-1.5 py-0.5 rounded">
+          HTTP 429
+        </span>
+      </div>
+      <div class="my-space-sm">
+        <div class="font-mono text-2xl font-bold text-tertiary" id="kpi-rate-limited">{{ rate_limited_count }}</div>
+      </div>
+      <div class="flex items-center justify-between font-mono text-[11px] text-outline pt-space-xs border-t border-outline-variant/30">
+        <span>Sliding Window</span>
+        <span>IP Cooldowns Active</span>
+      </div>
+    </div>
+
+    <!-- KPI 5: Active Alerts -->
+    <div class="flex flex-col justify-between p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm">
+      <div class="flex items-start justify-between">
+        <span class="font-mono text-[11px] uppercase tracking-wider text-outline font-semibold">Active Alerts</span>
+        <span class="font-mono text-[10px] text-primary bg-primary-container/20 px-1.5 py-0.5 rounded">
+          SOC Triage
+        </span>
+      </div>
+      <div class="my-space-sm">
+        <div class="font-mono text-2xl font-bold text-primary" id="kpi-open-alerts">{{ OPEN_ALERTS_COUNT }}</div>
+      </div>
+      <div class="flex items-center justify-between font-mono text-[11px] text-outline pt-space-xs border-t border-outline-variant/30">
+        <span>Inspection Latency</span>
+        <span class="font-bold text-on-surface">~1.8 ms</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Visual Analytics Row (Telemetry Chart + Category Distribution) -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+    <!-- Traffic Telemetry Chart -->
+    <div class="lg:col-span-8 p-space-lg rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm flex flex-col justify-between">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-sm font-bold text-on-surface flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-base">show_chart</span>
+            <span>Real-Time Traffic Ingress &amp; Mitigations</span>
+          </h2>
+          <p class="text-xs text-outline mt-0.5">Chronological request volume: Safe vs Malicious Ingress</p>
+        </div>
+        <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-surface-container text-outline">HTTP Telemetry Stream</span>
+      </div>
+      <div class="h-64 w-full">
+        <canvas id="trafficChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Attack Category Breakdown -->
+    <div class="lg:col-span-4 p-space-lg rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm flex flex-col justify-between">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-sm font-bold text-on-surface flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary text-base">pie_chart</span>
+            <span>Threat Taxonomy</span>
+          </h2>
+          <p class="text-xs text-outline mt-0.5">Distribution by attack category</p>
+        </div>
+      </div>
+      <div class="h-64 w-full flex items-center justify-center">
+        <canvas id="categoryChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real-time Activity Row (Recent Events Feed & Active Alerts) -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+    <!-- Live Security Events Feed -->
+    <div class="lg:col-span-7 p-space-lg rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-base">flip_camera_ios</span>
+          <h3 class="text-sm font-bold text-on-surface">Recent Security Events</h3>
+        </div>
+        <a href="{% url 'security-event-logs' %}" class="font-mono text-xs text-primary hover:underline flex items-center gap-1">
+          <span>View All Logs</span>
+          <span class="material-symbols-outlined text-xs">arrow_forward</span>
+        </a>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left font-mono text-xs">
+          <thead>
+            <tr class="border-b border-outline-variant text-outline text-[11px] uppercase">
+              <th class="pb-2">Time</th>
+              <th class="pb-2">IP</th>
+              <th class="pb-2">Method / Path</th>
+              <th class="pb-2">Decision</th>
+              <th class="pb-2">Category</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-outline-variant/40" id="recent-events-body">
+            {% for event in recent_events %}
+            <tr class="hover:bg-surface-container/50 transition-colors">
+              <td class="py-2.5 text-outline whitespace-nowrap">{{ event.timestamp|date:"H:i:s" }}</td>
+              <td class="py-2.5 text-primary">{{ event.source_ip }}</td>
+              <td class="py-2.5 max-w-[200px] truncate" title="{{ event.sanitized_path }}">
+                <span class="font-bold text-on-surface">{{ event.http_method }}</span>
+                <span class="text-on-surface-variant">{{ event.sanitized_path }}</span>
+              </td>
+              <td class="py-2.5">
+                {% if event.decision == 'BLOCKED' %}
+                <span class="px-1.5 py-0.5 rounded bg-error-container/40 text-error font-bold text-[10px]">BLOCKED</span>
+                {% elif event.decision == 'RATE_LIMITED' %}
+                <span class="px-1.5 py-0.5 rounded bg-tertiary-container/30 text-tertiary font-bold text-[10px]">RATE_LIMITED</span>
+                {% elif event.decision == 'FLAGGED' %}
+                <span class="px-1.5 py-0.5 rounded bg-primary-container/30 text-primary font-bold text-[10px]">FLAGGED</span>
+                {% else %}
+                <span class="px-1.5 py-0.5 rounded bg-secondary-container/20 text-secondary text-[10px]">ALLOWED</span>
+                {% endif %}
+              </td>
+              <td class="py-2.5 text-on-surface-variant text-[11px]">{{ event.category }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5" class="py-8 text-center text-outline">No security events recorded yet. Run a simulation test to generate telemetry.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Active Alerts Triage -->
+    <div class="lg:col-span-5 p-space-lg rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-error text-base">warning</span>
+            <h3 class="text-sm font-bold text-on-surface">Active Incident Alerts</h3>
+          </div>
+          <a href="{% url 'alert-management' %}" class="font-mono text-xs text-primary hover:underline flex items-center gap-1">
+            <span>Triage All</span>
+            <span class="material-symbols-outlined text-xs">arrow_forward</span>
+          </a>
+        </div>
+
+        <div class="space-y-3" id="active-alerts-container">
+          {% for alert in active_alerts %}
+          <div class="p-3 rounded-lg bg-surface-container border border-outline-variant hover:border-outline transition-colors flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-xs font-bold text-error flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
+                {{ alert.title }}
+              </span>
+              <span class="font-mono text-[10px] px-1.5 py-0.2 rounded bg-error-container text-error font-bold">
+                {{ alert.severity }}
+              </span>
+            </div>
+            <div class="font-mono text-[11px] text-outline flex items-center justify-between">
+              <span>Source: {{ alert.source_ip }}</span>
+              <span>Count: {{ alert.occurrence_count }}</span>
+            </div>
+            <div class="flex items-center justify-between pt-1 border-t border-outline-variant/40">
+              <span class="text-[10px] text-outline font-mono">Last seen: {{ alert.last_seen|timesince }} ago</span>
+              <button onclick="acknowledgeAlert('{{ alert.id }}')" class="px-2 py-0.5 rounded bg-surface-container-highest hover:bg-primary-container hover:text-on-primary-container text-[11px] font-mono text-primary transition-colors">
+                Acknowledge
+              </button>
+            </div>
+          </div>
+          {% empty %}
+          <div class="p-8 rounded-lg bg-surface-container-lowest text-center text-outline text-xs">
+            No active open alerts. SOC operational perimeter normal.
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-outline-variant/40 font-mono text-[11px] text-outline flex items-center justify-between">
+        <span>Engine: Regex + Heuristics</span>
+        <span>Zero False Alarms Goal</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  let trafficChartInstance = null;
+  let categoryChartInstance = null;
+  let refreshInterval = null;
+  let currentRange = '24h';
+
+  // Initialize Traffic Chart
+  function initCharts() {
+    const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+    trafficChartInstance = new Chart(trafficCtx, {
+      type: 'line',
+      data: {
+        labels: ['12h', '10h', '8h', '6h', '4h', '2h', 'Now'],
+        datasets: [
+          {
+            label: 'Safe Requests',
+            data: [120, 190, 150, 220, 180, 260, 310],
+            borderColor: '#4edea3',
+            backgroundColor: 'rgba(78, 222, 163, 0.08)',
+            fill: true,
+            tension: 0.35,
+          },
+          {
+            label: 'Blocked Ingress',
+            data: [5, 12, 8, 14, 6, 18, 11],
+            borderColor: '#ffb4ab',
+            backgroundColor: 'rgba(255, 180, 171, 0.15)',
+            fill: true,
+            tension: 0.35,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: '#c2c6d6', font: { family: 'JetBrains Mono', size: 11 } } },
+        },
+        scales: {
+          x: { grid: { color: '#262a35' }, ticks: { color: '#8c909f', font: { family: 'JetBrains Mono', size: 10 } } },
+          y: { grid: { color: '#262a35' }, ticks: { color: '#8c909f', font: { family: 'JetBrains Mono', size: 10 } } }
+        }
+      }
+    });
+
+    const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+    categoryChartInstance = new Chart(categoryCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['SQLi', 'XSS', 'Traversal', 'CMDi', 'Rate Limit'],
+        datasets: [{
+          data: [35, 25, 20, 12, 8],
+          backgroundColor: ['#ffb4ab', '#adc6ff', '#d0bcff', '#ffb4d9', '#4edea3'],
+          borderWidth: 0,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', labels: { color: '#c2c6d6', font: { family: 'JetBrains Mono', size: 10 } } }
+        }
+      }
+    });
+
+    // Fetch initial live telemetry
+    fetchTelemetry();
+  }
+
+  async function fetchTelemetry() {
+    try {
+      const summaryRes = await fetch(`/api/v1/dashboard/summary/?range=${currentRange}`);
+      if (summaryRes.ok) {
+        const data = await summaryRes.json();
+        const s = data.summary;
+        document.getElementById('kpi-total-requests').innerText = s.total_requests.toLocaleString();
+        document.getElementById('kpi-malicious-count').innerText = s.malicious_ingress.toLocaleString();
+        document.getElementById('kpi-blocked-count').innerText = s.blocked_requests.toLocaleString();
+        document.getElementById('kpi-rate-limited').innerText = s.rate_limited_requests.toLocaleString();
+        document.getElementById('kpi-open-alerts').innerText = s.open_alerts;
+        document.getElementById('kpi-safe-ratio').innerText = `${s.safe_ratio_pct}% safe`;
+      }
+
+      const trafficRes = await fetch('/api/v1/dashboard/traffic/');
+      if (trafficRes.ok) {
+        const trafficData = await trafficRes.json();
+        trafficChartInstance.data.labels = trafficData.labels;
+        trafficChartInstance.data.datasets = trafficData.datasets;
+        trafficChartInstance.update();
+      }
+
+      const analyticsRes = await fetch('/api/v1/analytics/');
+      if (analyticsRes.ok) {
+        const aData = await analyticsRes.json();
+        if (aData.category_breakdown && aData.category_breakdown.length > 0) {
+          categoryChartInstance.data.labels = aData.category_breakdown.map(c => c.category);
+          categoryChartInstance.data.datasets[0].data = aData.category_breakdown.map(c => c.count);
+          categoryChartInstance.update();
+        }
+      }
+    } catch (err) {
+      console.warn("Polling warning:", err);
+    }
+  }
+
+  function setRange(range) {
+    currentRange = range;
+    document.querySelectorAll('#range-selector button').forEach(b => {
+      if (b.dataset.range === range) {
+        b.className = "px-3 py-1 bg-surface-container text-primary font-bold font-mono text-xs rounded transition-all shadow-sm";
+      } else {
+        b.className = "px-3 py-1 text-on-surface-variant hover:text-on-surface font-mono text-xs rounded transition-all";
+      }
+    });
+    fetchTelemetry();
+  }
+
+  function toggleAutoRefresh() {
+    const btn = document.getElementById('refresh-toggle-btn');
+    const label = document.getElementById('refresh-label');
+    if (refreshInterval) {
+      clearInterval(refreshInterval);
+      refreshInterval = null;
+      btn.classList.remove('border-secondary');
+      label.innerText = 'Auto-Refresh (Paused)';
+      showToast('Telemetry auto-refresh paused');
+    } else {
+      refreshInterval = setInterval(fetchTelemetry, 10000);
+      btn.classList.add('border-secondary');
+      label.innerText = 'Auto-Refresh (10s)';
+      showToast('Telemetry auto-refresh active (10s)', 'success');
+    }
+  }
+
+  async function acknowledgeAlert(alertId) {
+    try {
+      const res = await fetch(`/api/v1/alerts/${alertId}/acknowledge/`, {
+        method: 'PATCH',
+        headers: { 'X-CSRFToken': getCookie('csrftoken'), 'Content-Type': 'application/json' }
+      });
+      if (res.ok) {
+        showToast(`Alert acknowledged successfully`, 'success');
+        setTimeout(fetchTelemetry, 500);
+      } else {
+        showToast('Failed to acknowledge alert', 'error');
+      }
+    } catch (e) {
+      showToast('Error communicating with alert endpoint', 'error');
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    initCharts();
+    refreshInterval = setInterval(fetchTelemetry, 10000);
+  });
+</script>
+{% endblock %}

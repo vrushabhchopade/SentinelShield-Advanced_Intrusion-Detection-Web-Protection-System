@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex flex-col w-full gap-space-lg">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+    <div>
+      <div class="flex items-center gap-space-sm mb-1 font-mono text-[11px] text-error uppercase tracking-widest">
+        <span>Incident Response</span>
+        <span>/</span>
+        <span>Threat Triage Board</span>
+      </div>
+      <h1 class="text-2xl font-bold text-on-surface tracking-tight">Security Alert Management</h1>
+      <p class="text-xs text-on-surface-variant mt-0.5">Prioritized incident queue aggregated from real-time high-severity heuristic matches</p>
+    </div>
+
+    <!-- Quick Count Badge -->
+    <div class="flex items-center gap-2">
+      <span class="px-3 py-1.5 rounded-lg bg-error-container/30 border border-error/50 font-mono text-xs text-error font-bold flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-sm">notifications_active</span>
+        <span>{{ OPEN_ALERTS_COUNT }} Open Alert Queue</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm flex flex-wrap items-center gap-space-md">
+    <div class="flex items-center gap-2">
+      <label class="font-mono text-[11px] text-outline uppercase">Status:</label>
+      <select id="alert-status-filter" onchange="fetchAlerts()"
+              class="bg-surface-container-lowest border border-outline-variant rounded px-2.5 py-1.5 text-xs font-mono text-on-surface outline-none focus:border-primary">
+        <option value="">All Statuses</option>
+        <option value="OPEN" selected>OPEN</option>
+        <option value="INVESTIGATING">INVESTIGATING</option>
+        <option value="ACKNOWLEDGED">ACKNOWLEDGED</option>
+        <option value="RESOLVED">RESOLVED</option>
+        <option value="FALSE_POSITIVE">FALSE_POSITIVE</option>
+      </select>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <label class="font-mono text-[11px] text-outline uppercase">Severity:</label>
+      <select id="alert-sev-filter" onchange="fetchAlerts()"
+              class="bg-surface-container-lowest border border-outline-variant rounded px-2.5 py-1.5 text-xs font-mono text-on-surface outline-none focus:border-primary">
+        <option value="">All Severities</option>
+        <option value="CRITICAL">CRITICAL</option>
+        <option value="HIGH">HIGH</option>
+        <option value="MEDIUM">MEDIUM</option>
+        <option value="LOW">LOW</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Alerts Grid / List -->
+  <div class="p-space-lg rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left font-mono text-xs">
+        <thead>
+          <tr class="border-b border-outline-variant text-outline text-[11px] uppercase">
+            <th class="pb-2.5">Alert ID</th>
+            <th class="pb-2.5">Severity</th>
+            <th class="pb-2.5">Incident Title</th>
+            <th class="pb-2.5">Category</th>
+            <th class="pb-2.5">Source IP</th>
+            <th class="pb-2.5">Count</th>
+            <th class="pb-2.5">Status</th>
+            <th class="pb-2.5">Last Seen</th>
+            <th class="pb-2.5 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant/40" id="alerts-table-body">
+          {% for al in alerts %}
+          <tr class="hover:bg-surface-container/50 transition-colors">
+            <td class="py-2.5 font-bold text-primary">{{ al.alert_id }}</td>
+            <td class="py-2.5">
+              {% if al.severity == 'CRITICAL' %}
+              <span class="px-1.5 py-0.5 rounded bg-error-container text-error font-bold text-[10px]">CRITICAL</span>
+              {% elif al.severity == 'HIGH' %}
+              <span class="px-1.5 py-0.5 rounded bg-error-container/40 text-error font-bold text-[10px]">HIGH</span>
+              {% elif al.severity == 'MEDIUM' %}
+              <span class="px-1.5 py-0.5 rounded bg-tertiary-container/30 text-tertiary text-[10px]">MEDIUM</span>
+              {% else %}
+              <span class="text-outline text-[10px]">LOW</span>
+              {% endif %}
+            </td>
+            <td class="py-2.5 font-bold text-on-surface max-w-[260px] truncate" title="{{ al.title }}">{{ al.title }}</td>
+            <td class="py-2.5 text-on-surface-variant text-[11px]">{{ al.category }}</td>
+            <td class="py-2.5 text-primary">{{ al.source_ip }}</td>
+            <td class="py-2.5 text-outline">{{ al.occurrence_count }}</td>
+            <td class="py-2.5">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold border border-outline-variant {% if al.status == 'OPEN' %}bg-error-container/30 text-error{% elif al.status == 'RESOLVED' %}bg-secondary-container/20 text-secondary{% else %}bg-surface-container-high text-primary{% endif %}">
+                {{ al.status }}
+              </span>
+            </td>
+            <td class="py-2.5 text-outline whitespace-nowrap">{{ al.last_seen|timesince }} ago</td>
+            <td class="py-2.5 text-right space-x-1">
+              {% if al.status == 'OPEN' or al.status == 'INVESTIGATING' %}
+              <button onclick="ackAlert('{{ al.id }}')" class="px-2 py-0.5 rounded bg-surface-container-highest hover:bg-primary-container hover:text-on-primary-container text-primary text-[11px] transition-colors">
+                Ack
+              </button>
+              <button onclick="openResolveModal('{{ al.id }}', '{{ al.alert_id }}')" class="px-2 py-0.5 rounded bg-secondary-container/20 hover:bg-secondary-container/40 text-secondary text-[11px] font-bold transition-colors">
+                Resolve
+              </button>
+              {% else %}
+              <span class="text-[10px] text-outline font-mono">Closed</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="9" class="py-8 text-center text-outline">No security alerts matching criteria.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Resolution Modal -->
+<div id="resolve-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <div class="max-w-md w-full bg-surface-container-low border border-outline-variant rounded-xl p-6 shadow-2xl">
+    <div class="flex items-center justify-between border-b border-outline-variant pb-3 mb-4">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary text-xl">check_circle</span>
+        <h3 class="text-base font-bold text-on-surface" id="resolve-modal-title">Resolve Incident Alert</h3>
+      </div>
+      <button onclick="closeResolveModal()" class="text-outline hover:text-on-surface">✕</button>
+    </div>
+
+    <div class="space-y-3 font-mono text-xs">
+      <label class="text-outline text-[11px] uppercase block">Analyst Forensic Resolution Notes</label>
+      <textarea id="resolve-notes" rows="3"
+                class="w-full bg-surface-container-lowest border border-outline-variant rounded p-2.5 text-on-surface outline-none focus:border-secondary"
+                placeholder="Document remediation action taken (e.g. Rate limit tuned, IP banned, false alarm rule adjusted)..."></textarea>
+    </div>
+
+    <div class="mt-6 pt-4 border-t border-outline-variant flex items-center justify-end gap-2">
+      <button onclick="closeResolveModal()" class="px-3 py-1 rounded bg-surface-container text-outline hover:text-on-surface text-xs font-mono">
+        Cancel
+      </button>
+      <button onclick="submitResolveAlert()" class="px-4 py-1.5 rounded bg-secondary text-on-secondary font-bold text-xs font-mono">
+        Mark Resolved
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  let activeAlertToResolve = null;
+
+  async function fetchAlerts() {
+    const st = document.getElementById('alert-status-filter').value;
+    const sev = document.getElementById('alert-sev-filter').value;
+
+    const params = new URLSearchParams();
+    if (st) params.append('status', st);
+    if (sev) params.append('severity', sev);
+
+    try {
+      const res = await fetch(`/api/v1/alerts/?${params.toString()}`);
+      if (!res.ok) throw new Error("Fetch failed");
+      const data = await res.json();
+      renderAlerts(data.results || data);
+    } catch(e) {
+      showToast('Error loading alerts', 'error');
+    }
+  }
+
+  function renderAlerts(items) {
+    const tbody = document.getElementById('alerts-table-body');
+    if (!items || items.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="9" class="py-8 text-center text-outline">No alerts matching filter.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = items.map(al => `
+      <tr class="hover:bg-surface-container/50 transition-colors">
+        <td class="py-2.5 font-bold text-primary">${al.alert_id}</td>
+        <td class="py-2.5">
+          <span class="px-1.5 py-0.5 rounded text-[10px] font-bold ${
+            al.severity === 'CRITICAL' ? 'bg-error-container text-error' :
+            al.severity === 'HIGH' ? 'bg-error-container/40 text-error' :
+            'bg-tertiary-container/30 text-tertiary'
+          }">${al.severity}</span>
+        </td>
+        <td class="py-2.5 font-bold text-on-surface max-w-[260px] truncate" title="${escapeHtml(al.title)}">${escapeHtml(al.title)}</td>
+        <td class="py-2.5 text-on-surface-variant text-[11px]">${al.category}</td>
+        <td class="py-2.5 text-primary">${al.source_ip}</td>
+        <td class="py-2.5 text-outline">${al.occurrence_count}</td>
+        <td class="py-2.5">
+          <span class="px-2 py-0.5 rounded text-[10px] font-bold border border-outline-variant ${
+            al.status === 'OPEN' ? 'bg-error-container/30 text-error' :
+            al.status === 'RESOLVED' ? 'bg-secondary-container/20 text-secondary' :
+            'bg-surface-container-high text-primary'
+          }">${al.status}</span>
+        </td>
+        <td class="py-2.5 text-outline whitespace-nowrap">${new Date(al.last_seen).toLocaleTimeString()}</td>
+        <td class="py-2.5 text-right space-x-1">
+          ${al.status === 'OPEN' || al.status === 'INVESTIGATING' ? `
+            <button onclick="ackAlert('${al.id}')" class="px-2 py-0.5 rounded bg-surface-container-highest hover:bg-primary-container hover:text-on-primary-container text-primary text-[11px] transition-colors">Ack</button>
+            <button onclick="openResolveModal('${al.id}', '${al.alert_id}')" class="px-2 py-0.5 rounded bg-secondary-container/20 hover:bg-secondary-container/40 text-secondary text-[11px] font-bold transition-colors">Resolve</button>
+          ` : '<span class="text-[10px] text-outline font-mono">Closed</span>'}
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  async function ackAlert(id) {
+    try {
+      const res = await fetch(`/api/v1/alerts/${id}/acknowledge/`, {
+        method: 'PATCH',
+        headers: { 'X-CSRFToken': getCookie('csrftoken') }
+      });
+      if (res.ok) {
+        showToast('Alert acknowledged', 'success');
+        fetchAlerts();
+      }
+    } catch(e) {
+      showToast('Error acknowledging alert', 'error');
+    }
+  }
+
+  function openResolveModal(id, alertId) {
+    activeAlertToResolve = id;
+    document.getElementById('resolve-modal-title').innerText = `Resolve ${alertId}`;
+    document.getElementById('resolve-notes').value = "";
+    document.getElementById('resolve-modal').classList.remove('hidden');
+  }
+
+  function closeResolveModal() {
+    document.getElementById('resolve-modal').classList.add('hidden');
+    activeAlertToResolve = null;
+  }
+
+  async function submitResolveAlert() {
+    if (!activeAlertToResolve) return;
+    const notes = document.getElementById('resolve-notes').value.trim();
+
+    try {
+      const res = await fetch(`/api/v1/alerts/${activeAlertToResolve}/resolve/`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({ notes: notes })
+      });
+      if (res.ok) {
+        showToast('Alert marked resolved', 'success');
+        closeResolveModal();
+        fetchAlerts();
+      } else {
+        showToast('Resolution submission failed', 'error');
+      }
+    } catch(e) {
+      showToast('Error communicating with resolve endpoint', 'error');
+    }
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex flex-col w-full gap-space-lg">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+    <div>
+      <div class="flex items-center gap-space-sm mb-1 font-mono text-[11px] text-primary uppercase tracking-widest">
+        <span>Signature Engine</span>
+        <span>/</span>
+        <span>Heuristic Rule Repository</span>
+      </div>
+      <h1 class="text-2xl font-bold text-on-surface tracking-tight">Detection Rule Management</h1>
+      <p class="text-xs text-on-surface-variant mt-0.5">Manage compiled regular expressions, categories, severity weights, and rule enable states</p>
+    </div>
+
+    <!-- Add Rule Action -->
+    <div class="flex items-center gap-2">
+      <button onclick="openCreateRuleModal()" class="px-3.5 py-2 rounded-lg bg-primary-container text-on-primary-container hover:bg-primary font-mono text-xs font-bold flex items-center gap-1.5 transition-colors shadow-lg shadow-primary-container/20">
+        <span class="material-symbols-outlined text-base">add</span>
+        <span>Add Custom Rule</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm flex flex-wrap items-center gap-space-md">
+    <div class="flex items-center gap-2">
+      <label class="font-mono text-[11px] text-outline uppercase">Category:</label>
+      <select id="rule-category-filter" onchange="filterRulesTable()"
+              class="bg-surface-container-lowest border border-outline-variant rounded px-2.5 py-1.5 text-xs font-mono text-on-surface outline-none focus:border-primary">
+        <option value="">All Categories</option>
+        {% for code, label in categories %}
+        <option value="{{ code }}">{{ code }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <label class="font-mono text-[11px] text-outline uppercase">Severity:</label>
+      <select id="rule-severity-filter" onchange="filterRulesTable()"
+              class="bg-surface-container-lowest border border-outline-variant rounded px-2.5 py-1.5 text-xs font-mono text-on-surface outline-none focus:border-primary">
+        <option value="">All Severities</option>
+        {% for code, label in severities %}
+        <option value="{{ code }}">{{ code }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <!-- Main Rules Table -->
+  <div class="p-space-lg rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left font-mono text-xs">
+        <thead>
+          <tr class="border-b border-outline-variant text-outline text-[11px] uppercase">
+            <th class="pb-2.5">Rule ID</th>
+            <th class="pb-2.5">Signature Name</th>
+            <th class="pb-2.5">Category</th>
+            <th class="pb-2.5">Severity</th>
+            <th class="pb-2.5">Target Components</th>
+            <th class="pb-2.5">Active State</th>
+            <th class="pb-2.5">Pattern Preview</th>
+            <th class="pb-2.5 text-right">Toggle</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-outline-variant/40" id="rules-table-body">
+          {% for r in rules %}
+          <tr class="hover:bg-surface-container/50 transition-colors rule-row" data-category="{{ r.category }}" data-severity="{{ r.severity }}">
+            <td class="py-2.5 font-bold text-primary">{{ r.rule_id }}</td>
+            <td class="py-2.5 font-bold text-on-surface max-w-[200px] truncate" title="{{ r.name }}">{{ r.name }}</td>
+            <td class="py-2.5 text-on-surface-variant text-[11px]">{{ r.category }}</td>
+            <td class="py-2.5">
+              <span class="px-1.5 py-0.5 rounded text-[10px] font-bold {% if r.severity == 'CRITICAL' %}bg-error-container text-error{% elif r.severity == 'HIGH' %}bg-error-container/40 text-error{% else %}bg-tertiary-container/30 text-tertiary{% endif %}">
+                {{ r.severity }}
+              </span>
+            </td>
+            <td class="py-2.5 text-outline text-[11px]">{{ r.target_components|join:", " }}</td>
+            <td class="py-2.5" id="rule-status-{{ r.id }}">
+              {% if r.enabled %}
+              <span class="text-secondary font-bold flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>ENABLED
+              </span>
+              {% else %}
+              <span class="text-outline flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-outline"></span>DISABLED
+              </span>
+              {% endif %}
+            </td>
+            <td class="py-2.5 max-w-[200px] truncate text-outline" title="{{ r.pattern }}">
+              <code class="bg-surface-container px-1 py-0.5 rounded text-[11px]">{{ r.pattern|truncatechars:35 }}</code>
+            </td>
+            <td class="py-2.5 text-right">
+              <button onclick="toggleRuleState('{{ r.id }}', '{{ r.rule_id }}')"
+                      class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant text-[11px] text-primary transition-colors">
+                Toggle
+              </button>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="8" class="py-8 text-center text-outline">No detection rules found. Initialize database rules.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Add Custom Rule Modal -->
+<div id="create-rule-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+  <div class="max-w-lg w-full bg-surface-container-low border border-outline-variant rounded-xl p-6 shadow-2xl">
+    <div class="flex items-center justify-between border-b border-outline-variant pb-3 mb-4">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-xl">verified_user</span>
+        <h3 class="text-base font-bold text-on-surface">Add Detection Signature</h3>
+      </div>
+      <button onclick="closeCreateRuleModal()" class="text-outline hover:text-on-surface">✕</button>
+    </div>
+
+    <form onsubmit="handleCreateRule(event)" class="space-y-3 font-mono text-xs">
+      <div>
+        <label class="text-outline block mb-1 uppercase">Rule ID (Canonical)</label>
+        <input id="new-rule-id" type="text" required placeholder="e.g. CUSTOM-001"
+               class="w-full bg-surface-container-lowest border border-outline-variant rounded p-2 text-on-surface outline-none focus:border-primary"/>
+      </div>
+      <div>
+        <label class="text-outline block mb-1 uppercase">Signature Name</label>
+        <input id="new-rule-name" type="text" required placeholder="e.g. Dangerous Shell Redirection"
+               class="w-full bg-surface-container-lowest border border-outline-variant rounded p-2 text-on-surface outline-none focus:border-primary"/>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="text-outline block mb-1 uppercase">Category</label>
+          <select id="new-rule-category" class="w-full bg-surface-container-lowest border border-outline-variant rounded p-2 text-on-surface outline-none">
+            {% for code, label in categories %}
+            <option value="{{ code }}">{{ code }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <label class="text-outline block mb-1 uppercase">Severity</label>
+          <select id="new-rule-severity" class="w-full bg-surface-container-lowest border border-outline-variant rounded p-2 text-on-surface outline-none">
+            {% for code, label in severities %}
+            <option value="{{ code }}">{{ code }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="text-outline block mb-1 uppercase">Regex Pattern</label>
+        <input id="new-rule-pattern" type="text" required placeholder="(?i)\b(dangerous_keyword)\b"
+               class="w-full bg-surface-container-lowest border border-outline-variant rounded p-2 text-primary outline-none focus:border-primary"/>
+      </div>
+      <div>
+        <label class="text-outline block mb-1 uppercase">Description</label>
+        <textarea id="new-rule-desc" rows="2" placeholder="Brief technical explanation of defensive purpose..."
+                  class="w-full bg-surface-container-lowest border border-outline-variant rounded p-2 text-on-surface outline-none focus:border-primary"></textarea>
+      </div>
+
+      <div class="pt-4 border-t border-outline-variant flex items-center justify-end gap-2">
+        <button type="button" onclick="closeCreateRuleModal()" class="px-3 py-1 rounded bg-surface-container text-outline hover:text-on-surface text-xs">
+          Cancel
+        </button>
+        <button type="submit" class="px-4 py-1.5 rounded bg-primary-container text-on-primary-container font-bold text-xs">
+          Create Rule
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  function filterRulesTable() {
+    const cat = document.getElementById('rule-category-filter').value;
+    const sev = document.getElementById('rule-severity-filter').value;
+
+    document.querySelectorAll('.rule-row').forEach(row => {
+      const rowCat = row.dataset.category;
+      const rowSev = row.dataset.severity;
+      const matchCat = !cat || rowCat === cat;
+      const matchSev = !sev || rowSev === sev;
+      row.style.display = matchCat && matchSev ? '' : 'none';
+    });
+  }
+
+  async function toggleRuleState(id, ruleId) {
+    try {
+      const res = await fetch(`/api/v1/rules/${id}/toggle/`, {
+        method: 'PATCH',
+        headers: { 'X-CSRFToken': getCookie('csrftoken') }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const cell = document.getElementById(`rule-status-${id}`);
+        if (data.enabled) {
+          cell.innerHTML = `<span class="text-secondary font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>ENABLED</span>`;
+        } else {
+          cell.innerHTML = `<span class="text-outline flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-outline"></span>DISABLED</span>`;
+        }
+        showToast(`Rule ${ruleId} is now ${data.enabled ? 'ENABLED' : 'DISABLED'}`, 'success');
+      }
+    } catch(e) {
+      showToast('Error toggling rule state', 'error');
+    }
+  }
+
+  function openCreateRuleModal() {
+    document.getElementById('create-rule-modal').classList.remove('hidden');
+  }
+
+  function closeCreateRuleModal() {
+    document.getElementById('create-rule-modal').classList.add('hidden');
+  }
+
+  async function handleCreateRule(e) {
+    e.preventDefault();
+    const ruleId = document.getElementById('new-rule-id').value.trim();
+    const name = document.getElementById('new-rule-name').value.trim();
+    const cat = document.getElementById('new-rule-category').value;
+    const sev = document.getElementById('new-rule-severity').value;
+    const pattern = document.getElementById('new-rule-pattern').value.trim();
+    const desc = document.getElementById('new-rule-desc').value.trim();
+
+    try {
+      const res = await fetch('/api/v1/rules/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+          rule_id: ruleId,
+          name: name,
+          category: cat,
+          severity: sev,
+          pattern: pattern,
+          description: desc,
+          target_components: ['path', 'query', 'body']
+        })
+      });
+
+      if (res.ok) {
+        showToast(`Rule ${ruleId} created successfully`, 'success');
+        closeCreateRuleModal();
+        setTimeout(() => window.location.reload(), 600);
+      } else {
+        showToast('Rule creation failed (Check ID uniqueness)', 'error');
+      }
+    } catch(e) {
+      showToast('Network error creating rule', 'error');
+    }
+  }
+</script>
+{% endblock %}

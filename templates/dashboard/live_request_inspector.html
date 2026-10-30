@@ -1,0 +1,338 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex flex-col w-full gap-space-lg">
+  <!-- Header & Context Area -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+    <div>
+      <div class="flex items-center gap-space-sm mb-1">
+        <span class="font-mono text-[11px] uppercase tracking-widest text-primary px-2 py-0.5 rounded bg-surface-container-high border border-outline-variant">
+          INSPECTOR MODULE 03
+        </span>
+        <span class="font-mono text-xs text-outline">ENV: ISOLATED_SANDBOX_V2</span>
+      </div>
+      <h1 class="text-2xl font-bold text-on-surface tracking-tight">Live Request Inspector</h1>
+      <p class="text-xs text-on-surface-variant mt-0.5">Interactive HTTP payload sandbox and simulated WAF decision engine</p>
+    </div>
+
+    <!-- Live Engine Status Quick Pill -->
+    <div class="flex items-center gap-space-md">
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container-low border border-outline-variant shadow-sm font-mono text-xs">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+        </span>
+        <span class="text-secondary font-semibold">CORE HEURISTICS: ACTIVE</span>
+      </div>
+      <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container-low border border-outline-variant text-on-surface-variant font-mono text-xs shadow-sm">
+        <span class="material-symbols-outlined text-sm text-primary">memory</span>
+        <span>BUFFER MAX: 16 KB</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Security Notice Banner -->
+  <div class="flex items-start md:items-center gap-space-md p-space-md rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm relative overflow-hidden">
+    <div class="p-2 rounded bg-tertiary-container/20 text-tertiary flex-shrink-0">
+      <span class="material-symbols-outlined text-xl leading-none">shield</span>
+    </div>
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="font-mono text-xs uppercase font-bold text-tertiary">Safe Educational Environment</span>
+        <span class="text-outline text-xs">•</span>
+        <span class="font-mono text-[11px] text-outline">RFC-Compliant In-Memory Parser</span>
+      </div>
+      <p class="text-xs text-on-surface-variant mt-0.5">
+        Payloads entered here are analyzed against active detection rules without executing OS commands, shell scripts, or arbitrary SQL statements.
+      </p>
+    </div>
+    <div class="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded bg-surface-container-highest text-outline font-mono text-[11px] border border-outline-variant">
+      <span class="material-symbols-outlined text-sm">lock</span>
+      <span>INERT SIMULATOR</span>
+    </div>
+  </div>
+
+  <!-- Two-column split layout -->
+  <div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+    <!-- LEFT COLUMN: Request Crafting -->
+    <div class="xl:col-span-6 flex flex-col gap-space-md">
+      <div class="p-space-lg rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm flex flex-col gap-space-md">
+        <div class="flex items-center justify-between border-b border-outline-variant/40 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-lg">tune</span>
+            <h2 class="text-sm font-bold text-on-surface">Craft Test HTTP Request</h2>
+          </div>
+          <span class="font-mono text-[10px] text-outline uppercase tracking-wider bg-surface-container px-2 py-0.5 rounded border border-outline-variant">
+            HTTP/1.1 SIMULATOR
+          </span>
+        </div>
+
+        <!-- Method & Path -->
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-2">
+          <div class="sm:col-span-3 flex flex-col gap-1">
+            <label class="font-mono text-[11px] uppercase tracking-wider text-outline">Method</label>
+            <select id="req-method" class="w-full bg-surface-container-lowest border border-outline-variant text-primary font-mono text-xs font-bold rounded px-2.5 py-2 outline-none focus:border-primary">
+              <option value="POST" selected>POST</option>
+              <option value="GET">GET</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+              <option value="PATCH">PATCH</option>
+            </select>
+          </div>
+          <div class="sm:col-span-9 flex flex-col gap-1">
+            <label class="font-mono text-[11px] uppercase tracking-wider text-outline">Path &amp; Query</label>
+            <input id="req-path" type="text" value="/api/v1/auth/session?client_id=sec_test"
+                   class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-mono text-xs rounded px-3 py-2 outline-none focus:border-primary"/>
+          </div>
+        </div>
+
+        <!-- Safe Preset Buttons -->
+        <div class="flex flex-col gap-1.5 pt-1">
+          <div class="flex items-center justify-between">
+            <label class="font-mono text-[11px] uppercase tracking-wider text-outline font-semibold">Test Vector Presets</label>
+            <span class="font-mono text-[10px] text-outline">5 educational templates</span>
+          </div>
+          <div class="flex flex-wrap gap-1.5" id="presets-list">
+            <button type="button" onclick="loadPreset('safe')" class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant text-xs text-on-surface flex items-center gap-1.5 transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>Safe Request
+            </button>
+            <button type="button" onclick="loadPreset('sqli')" class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant text-xs text-on-surface flex items-center gap-1.5 transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-error"></span>SQL Injection
+            </button>
+            <button type="button" onclick="loadPreset('xss')" class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant text-xs text-on-surface flex items-center gap-1.5 transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>XSS Payload
+            </button>
+            <button type="button" onclick="loadPreset('traversal')" class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant text-xs text-on-surface flex items-center gap-1.5 transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>Path Traversal
+            </button>
+            <button type="button" onclick="loadPreset('cmdi')" class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high border border-outline-variant text-xs text-on-surface flex items-center gap-1.5 transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-error"></span>Command Injection
+            </button>
+          </div>
+        </div>
+
+        <!-- Request Headers -->
+        <div class="flex flex-col gap-1">
+          <label class="font-mono text-[11px] uppercase tracking-wider text-outline">Headers (JSON or Key: Value)</label>
+          <textarea id="req-headers" rows="3"
+                    class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-mono text-xs rounded p-2.5 outline-none focus:border-primary">{"Content-Type": "application/json", "User-Agent": "SentinelShield-TestClient/2.4"}</textarea>
+        </div>
+
+        <!-- Request Body -->
+        <div class="flex flex-col gap-1">
+          <label class="font-mono text-[11px] uppercase tracking-wider text-outline">HTTP Body Payload</label>
+          <textarea id="req-body" rows="4"
+                    class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-mono text-xs rounded p-2.5 outline-none focus:border-primary">{"username": "student_lab", "auth_mode": "challenge_token"}</textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-2">
+          <button id="inspect-btn" onclick="executeInspection()"
+                  class="w-full py-2.5 px-4 rounded-lg bg-primary-container text-on-primary-container hover:bg-primary font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors shadow-lg shadow-primary-container/20">
+            <span class="material-symbols-outlined text-base">play_arrow</span>
+            <span>Transmit &amp; Inspect Request</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Inspection Verdict & Breakdown -->
+    <div class="xl:col-span-6 flex flex-col gap-space-md">
+      <div class="p-space-lg rounded-xl bg-surface-container-low border border-outline-variant/60 shadow-sm flex flex-col gap-space-md min-h-[460px]">
+        <div class="flex items-center justify-between border-b border-outline-variant/40 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary text-lg">policy</span>
+            <h2 class="text-sm font-bold text-on-surface">Inspection Verdict &amp; Telemetry</h2>
+          </div>
+          <span id="verdict-latency" class="font-mono text-[11px] text-outline">READY</span>
+        </div>
+
+        <!-- Verdict Banner Card -->
+        <div id="verdict-card" class="p-4 rounded-lg bg-surface-container border border-outline-variant flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div id="verdict-icon-box" class="w-10 h-10 rounded-lg bg-secondary-container/20 text-secondary border border-secondary/30 flex items-center justify-center">
+              <span class="material-symbols-outlined text-xl" id="verdict-icon">check_circle</span>
+            </div>
+            <div>
+              <div class="font-mono text-[10px] uppercase text-outline font-semibold">SECURITY DECISION</div>
+              <div class="font-mono text-lg font-bold text-secondary" id="verdict-title">STANDBY / READY</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <span id="verdict-severity" class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-surface-container-highest text-outline">
+              INFO
+            </span>
+          </div>
+        </div>
+
+        <!-- Safe Explanation Reason -->
+        <div>
+          <label class="font-mono text-[11px] uppercase tracking-wider text-outline block mb-1">Detection Rationale</label>
+          <div id="verdict-reason" class="p-3 rounded-lg bg-surface-container-lowest border border-outline-variant font-mono text-xs text-on-surface leading-relaxed">
+            Awaiting packet transmission. Submit a request or load an attack preset to inspect signature indicators.
+          </div>
+        </div>
+
+        <!-- Matched Rules List -->
+        <div>
+          <label class="font-mono text-[11px] uppercase tracking-wider text-outline block mb-1">Triggered Detection Rules</label>
+          <div id="matched-rules-container" class="space-y-2">
+            <div class="p-4 rounded-lg bg-surface-container-lowest border border-outline-variant text-center text-outline font-mono text-xs">
+              No rule violations triggered.
+            </div>
+          </div>
+        </div>
+
+        <!-- Normalized Component Details -->
+        <div class="mt-auto pt-3 border-t border-outline-variant/40 font-mono text-[11px] text-outline flex items-center justify-between">
+          <span>Engine: SentinelShield Heuristics</span>
+          <span>Bounded Regex Execution</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  const presets = {
+    safe: {
+      method: "GET",
+      path: "/api/v1/search?q=cybersecurity+defense+fundamentals&page=1",
+      headers: '{"Content-Type": "application/json", "User-Agent": "Mozilla/5.0"}',
+      body: ""
+    },
+    sqli: {
+      method: "POST",
+      path: "/auth/login/",
+      headers: '{"Content-Type": "application/x-www-form-urlencoded"}',
+      body: "username=admin' OR '1'='1&password=target_secret"
+    },
+    xss: {
+      method: "POST",
+      path: "/api/v1/comments/",
+      headers: '{"Content-Type": "application/json"}',
+      body: '{"author": "guest", "comment": "Great post! <script>alert(\'XSS-ATTACK\')<\\/script>"}'
+    },
+    traversal: {
+      method: "GET",
+      path: "/api/v1/files/download?file=../../../../../../etc/passwd",
+      headers: '{"User-Agent": "Mozilla/5.0"}',
+      body: ""
+    },
+    cmdi: {
+      method: "POST",
+      path: "/api/v1/diagnostics/ping",
+      headers: '{"Content-Type": "application/json"}',
+      body: '{"target_ip": "127.0.0.1; cat /etc/passwd"}'
+    }
+  };
+
+  function loadPreset(key) {
+    const p = presets[key];
+    if (!p) return;
+    document.getElementById('req-method').value = p.method;
+    document.getElementById('req-path').value = p.path;
+    document.getElementById('req-headers').value = p.headers;
+    document.getElementById('req-body').value = p.body;
+    showToast(`Loaded '${key.toUpperCase()}' test preset`);
+  }
+
+  async function executeInspection() {
+    const btn = document.getElementById('inspect-btn');
+    btn.disabled = true;
+    btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-base">progress_activity</span><span>Analyzing Heuristics...</span>`;
+
+    const method = document.getElementById('req-method').value;
+    const fullPath = document.getElementById('req-path').value;
+    let headersObj = {};
+    try {
+      headersObj = JSON.parse(document.getElementById('req-headers').value);
+    } catch(e) {
+      headersObj = {"User-Agent": "SentinelShield-TestClient"};
+    }
+    const bodyText = document.getElementById('req-body').value;
+
+    const [pathPart, queryPart] = fullPath.split('?');
+
+    try {
+      const res = await fetch('/api/v1/simulation/inspect/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+          method: method,
+          path: pathPart || fullPath,
+          query: queryPart || "",
+          headers: headersObj,
+          body: bodyText
+        })
+      });
+
+      const data = await res.json();
+      renderVerdict(data);
+      showToast(data.is_threat ? 'Threat signature identified!' : 'Request passed heuristic analysis', data.is_threat ? 'error' : 'success');
+    } catch (err) {
+      showToast('Error communicating with inspector engine', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = `<span class="material-symbols-outlined text-base">play_arrow</span><span>Transmit & Inspect Request</span>`;
+    }
+  }
+
+  function renderVerdict(data) {
+    document.getElementById('verdict-latency').innerText = `LATENCY: ${data.execution_time_ms} ms`;
+    document.getElementById('verdict-reason').innerText = data.safe_reason;
+
+    const card = document.getElementById('verdict-card');
+    const iconBox = document.getElementById('verdict-icon-box');
+    const icon = document.getElementById('verdict-icon');
+    const title = document.getElementById('verdict-title');
+    const sevBadge = document.getElementById('verdict-severity');
+    const rulesContainer = document.getElementById('matched-rules-container');
+
+    if (data.is_threat) {
+      card.className = "p-4 rounded-lg bg-error-container/20 border border-error/50 flex items-center justify-between";
+      iconBox.className = "w-10 h-10 rounded-lg bg-error-container text-error border border-error flex items-center justify-center";
+      icon.innerText = "gpp_bad";
+      title.className = "font-mono text-lg font-bold text-error";
+      title.innerText = `BLOCKED (403) - ${data.primary_category}`;
+      sevBadge.className = "font-mono text-xs font-bold px-2 py-0.5 rounded bg-error text-on-error";
+      sevBadge.innerText = data.highest_severity;
+
+      rulesContainer.innerHTML = data.matched_rules.map(r => `
+        <div class="p-3 rounded-lg bg-surface-container-lowest border border-error/40 flex flex-col gap-1">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-xs font-bold text-error">${r.rule_id}: ${r.name}</span>
+            <span class="font-mono text-[10px] px-1.5 py-0.2 rounded bg-surface-container-high text-primary">${r.target_component.toUpperCase()}</span>
+          </div>
+          <div class="font-mono text-[11px] text-outline truncate">Match Snippet: <span class="text-on-surface bg-surface-container px-1 rounded">${escapeHtml(r.snippet)}</span></div>
+        </div>
+      `).join('');
+    } else {
+      card.className = "p-4 rounded-lg bg-secondary-container/20 border border-secondary/40 flex items-center justify-between";
+      iconBox.className = "w-10 h-10 rounded-lg bg-secondary-container text-secondary flex items-center justify-center";
+      icon.innerText = "verified_user";
+      title.className = "font-mono text-lg font-bold text-secondary";
+      title.innerText = "ALLOWED (200) - CLEAN";
+      sevBadge.className = "font-mono text-xs font-bold px-2 py-0.5 rounded bg-secondary text-on-secondary";
+      sevBadge.innerText = "NORMAL";
+
+      rulesContainer.innerHTML = `
+        <div class="p-4 rounded-lg bg-surface-container-lowest border border-outline-variant text-center text-secondary font-mono text-xs flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-base">check</span>
+          <span>Zero malicious indicators detected. Payload safe for processing.</span>
+        </div>
+      `;
+    }
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+</script>
+{% endblock %}
